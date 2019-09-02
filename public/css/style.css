@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,900i|Montserrat|Roboto+Condensed&display=swap');
+
+body {
+	background-color: #ececec;
+}
+
+p {
+	font-family: 'Lato', sans-serif;
+}
+
+.card {
+	border:none;
+}
+
+.navbar{
+	background-color: #232a42;
+}
+
+.navbar-brand {
+	color: #fff;
+	font-family: 'Lato', sans-serif;
+	margin-left: 1em;
+}
+
+.navbar-brand:hover {
+	color: #fff;
+}
+
+.navbar-toggler {
+	background-color: #fff;
+	
+}
+
+.navbar-toggler-icon {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(186, 30, 30, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.nav-link {
+	color: #fff;
+	margin-right: 5px;
+    font-family: 'Lato', sans-serif;
+}
+
+.nav-link:hover {
+	color: #232a42;
+	background-color: #fff;
+}
+
+.dropdown-toggle {
+	color: #fff;
+	text-decoration: none;
+}
+
+.dropdown-toggle:hover {
+	color: #fff;
+	text-decoration: none;
+}
+/*
+@media(min-width: 992px) {
+	.navbar-collapse {
+		margin-left: 19em;
+	}
+}
+
+@media(min-width: 1016px) {
+	.navbar-collapse {
+		margin-left: 23em;
+	}
+}
+
+@media(min-width: 1120px) {
+	.navbar-collapse {
+		margin-left: 25em;
+	}
+}
+
+@media(min-width: 1165px) {
+	.navbar-collapse {
+		margin-left: 28em;
+	}
+}
+
+@media(min-width: 1200px) {
+	.navbar-collapse {
+		margin-left: 30em;
+	}
+}
+
+@media(min-width: 1260px) {
+	.navbar-collapse {
+		margin-left: 36em;
+	}
+}
+
+@media(min-width: 1300px) {
+	.navbar-collapse {
+		margin-left: 38em;
+	}
+}
+
+@media(min-width: 1320px) {
+	.navbar-collapse {
+		margin-left: 40em;
+	}
+}
+*/
+.main-header {
+	background-image: url('../img/bg.jpg');
+	background-attachment: fixed;
+	background-size: cover;
+	background-position: center;
+	height: 60%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	text-align: center;
+}
+
+.header-section {
+	position: absolute;
+    top: 15%;
+    margin: auto;
+    padding: 5em;
+}
+
+.main-section {
+	margin: auto;
+	padding: 2em;
+	margin-top: 4%;
+}
+
+.btn-primary {
+	background-color: #ff8389;
+	border: none;
+	border-radius: 0;
+	font-family: 'Lato', sans-serif;
+	cursor: pointer;
+	border-radius: 50px;
+}
+
+.btn-primary:hover {
+	border:none;
+	background-color: #08d68f ;
+}
+
+.form-control {
+	border: 1px solid #bbb;
+	font-family: 'Lato', sans-serif; 
+}
+
+.form-rounded {
+	border-radius: 50px;
+}
+
+.title {
+	color: #232a42;
+	font-family: 'Roboto Condensed', sans-serif; 
+}
+
+.main-p {
+	font-size: 1.3rem;
+}
+
+.pricing {
+	margin-top: 2%;
+}
+
+.price-card {
+	margin: 1em;
+}
+
+.price-footer {
+	background-color: #fff;
+}
+
+.price {
+	font-size: 1.5rem;
+	color: #08d68f;
+	font-weight: 700;
+	font-family: 'Roboto Condensed', sans-serif; 
+	margin-bottom: 2%;
+}
+
+.list-group-item {
+	border: none;
+	color: #555;
+	font-size: 1.1rem;
+}
+
+.card img {
+	width: 100%;
+}
+
+.card-footer {
+	border: none;
+	padding: 2em;
+}
+
+.card-title-ad {
+	font-size: 1.18rem;
+}
+
+.bg-primary {
+	color: #fff;
+	background: linear-gradient(to right, #232a42, #232a42);
+	border:none;
+}
+
+.modal-title {
+	font-family: 'Roboto Condensed', sans-serif; 
+	font-size: 1.3rem;
+	font-weight: 500;
+}
+
+.contact-col {
+	margin-right:  5%;
+}
+
+.contact-info {
+	padding-top: 1rem;
+	font-size: 1.15rem;
+	font-family: 'Montserrat', sans-serif; 
+}
+
+#contact-img {
+	padding-left: 0;
+}
+
+#contact-infos {
+	margin-top: 1rem;
+}
+
+.footer {
+	padding: 2rem;
+	bottom: 0;
+	position: relative;
+}
+
+
+
+#footer-mini {
+	font-size: 0.9rem;
+	font-family: 'Lato', sans-serif;
+}
+
+.step {
+	margin-bottom: 2%;
+}
+
+.ads {
+	margin-top: 1rem;
+	cursor: pointer;
+}
+
+.add-card {
+	padding-top: 3rem; 
+	padding-bottom: 1.4rem
+}
+
+.add-icon {
+	color: #777;
+	margin-bottom: 30px;
+}
+
+.add-title {
+	font-size: 1.1rem;
+	font-weight: 600;
+}
+
+.dropdown-toggle::after {
+    display:none;
+}
+
+.page-out {
+	margin-top: 80px;
+	margin-bottom: 100px;
+}
+
+.local-title {
+	font-size: 5rem;
+	font-weight: bold;
+	margin: 2rem 0.8rem;
+}
+
+.local-subtitle {
+	font-size: 1.4rem;
+	font-family: 'Montserrat';
+}
+
+.local-card {
+	border: none;
+}
+
+.img-fluid {
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 180px;
+}
+
+.btn-info, .btn-danger, .btn-success, .btn-secondary {
+	border-radius: 50px;
+	color: #fff;
+}
