@@ -13,11 +13,11 @@
               <div class="modal-body row">
                 <div class="form-group col-lg-12">
                     <label>Email: </label>
-                    <input type="email" name="email" class="form-control" value="agostinho@taxicarraroucarrarataxi.com" placeholder="Email">
+                    <input type="email" name="email" class="form-control" v-model="profile.email" placeholder="Email">
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Nome Fantasia: </label>
-                    <input type="text" name="nome-fantasia" class="form-control" value="Taxi Carrara ou Carrara Taxi" placeholder="Nome Fantasia">
+                    <input type="text" name="nome-fantasia" class="form-control" v-model="profileParams.fantasy_name" placeholder="Nome Fantasia">
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Categoria: </label>
@@ -29,39 +29,36 @@
                 </div>
                     <div class="form-group col-lg-12">
                     <label>Bairro: </label>
-                    <input type="text" name="bairro" class="form-control" value="Onde mora o Lineu, todo mundo sabe onde é" placeholder="Bairro">
+                    <input type="text" name="bairro" class="form-control" v-model="profileParams.neighborhood" placeholder="Bairro">
                 </div>
                     <div class="form-group col-lg-12">
                     <label>Rua: </label>
-                    <input type="text" name="rua" class="form-control" value="Rua onde mora o lineu" placeholder="Rua">
+                    <input type="text" name="rua" class="form-control" v-model="profileParams.street" placeholder="Rua">
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Número: </label>
-                    <input type="number" name="numero" class="form-control" value="999" placeholder="Número">
+                    <input type="number" name="numero" class="form-control" v-model="profileParams.number" placeholder="Número">
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Estado: </label>
-                    <select class="form-control">
-                        <option>Estado</option>
-                        <option>Rio Grande do Sul</option>
-                        <option selected>Rio de Janeiro</option>
+                    <select class="form-control" v-model="profileParams.state" @change="getCities()">
+                       <option v-for="state in states" :value="state.id">{{ state.name }}</option>
                     </select>
                 </div>
-                <div class="form-group col-lg-12">
+
+                <div class="form-group col-lg-12" >
                     <label>Cidade: </label>
-                    <select class="form-control">
-                        <option>Cidade</option>
-                        <option>Porto Alegre</option>
-                        <option selected>Rio de Janeiro</option>
+                    <select class="form-control" v-model="profileParams.city">
+                        <option v-for="city in cities" :value="city.id">{{ city.name }}</option>
                     </select>
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Telefone 1: </label>
-                    <input type="text" name="telefone-1" value="(21)9999-9999" class="form-control" placeholder="Telefone 1">
+                    <input type="text" name="telefone-1" v-model="profileParams.phone_1" class="form-control" placeholder="Telefone 1">
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Telefone 2: </label>
-                    <input type="text" name="telefone-2" value="(21)0000-0000" class="form-control" placeholder="Telefone 2">
+                    <input type="text" name="telefone-2" v-model="profileParams.phone_2" class="form-control" placeholder="Telefone 2">
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Logo: </label>
@@ -79,16 +76,40 @@
 
 <script>
     export default {
+        props: ['profile'],
     	data() {
     		return { 
-    			
+    			states: [],
+                cities: [],
+                profileParams: [],
     		}
     	},
         mounted() {
+            axios.get('/states').then((response) => {
+                this.states = response.data;
+            })
            
         },
+        watch: {
+            profile () {
+                this.profileParams = this.profile
+                this.getCities();
+            }
+        },
         methods: {
-        	
+        	getCities() {
+                if(this.profileParams.state !== 0) {
+                    axios.get('/cities', { 
+                        params: 
+                        {
+                            state_id: this.profileParams.state} 
+                        }).then((response) => {
+                        this.cities = response.data;
+                        this.show = true;
+                    })
+                }
+                
+            }
         }
     };
 </script>

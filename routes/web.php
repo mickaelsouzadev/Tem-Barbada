@@ -17,10 +17,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Client routes
 Route::get('/cadastre-se', 'ClientController@create');
-Route::post('/register', 'ClientController@store');
-Route::get('/clients', 'ClientController@show');
-Route::put('/clients', 'ClientController@update');
-Route::delete('/clients', 'ClientController@destroy');
 Route::post('/login', 'ClientController@login');
 Route::get('/sair', 'ClientController@logout');
 Route::get('/painel-cliente', 'ClientController@index')->middleware('auth:client');
@@ -31,9 +27,19 @@ Route::apiResource('states', 'StateController');
 
 Route::apiResource('cities', 'CityController');
 
+Route::apiResource('clients', 'ClientController')->except([
+    'index', 'create',
+]);;
 
+Route::get('clients', 'ClientController@show');
 
+Route::apiResource('ads', 'ClientController')->except([
+    'showByCity', 'showByState', 'getByClient', 'index'
+]);;
 
+Route::get('ads/{id}', 'AdController@getByClient');
+Route::get('barbadas/estado/{state}', 'AdController@showByState');
+Route::get('barbadas/cidade/{city}', 'AdController@showByCity');
 
 // Route::get('/home', 'HomeController@index')->name('home');
 

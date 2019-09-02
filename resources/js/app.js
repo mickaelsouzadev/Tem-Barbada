@@ -22,11 +22,13 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('filter-component', require('./components/FilterComponent.vue').default);
-Vue.component('my-ad-modal-component', require('./components/MyAdModalComponent.vue').default);
-Vue.component('add-ad-modal-component', require('./components/AddAdModalComponent.vue').default);
-Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
-Vue.component('edit-my-info-component', require('./components/EditMyInfoComponent.vue').default);
-Vue.component('login-component', require('./components/LoginComponent.vue').default);
+Vue.component('my-ad-modal', require('./components/MyAdModalComponent.vue').default);
+Vue.component('add-ad-modal', require('./components/AddAdModalComponent.vue').default);
+Vue.component('my-profile-modal', require('./components/MyProfileModalComponent.vue').default);
+Vue.component('profile', require('./components/ProfileComponent.vue').default);
+Vue.component('profile-nav', require('./components/ProfileNavComponent.vue').default);
+Vue.component('edit-my-info', require('./components/EditMyInfoComponent.vue').default);
+Vue.component('login', require('./components/LoginComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

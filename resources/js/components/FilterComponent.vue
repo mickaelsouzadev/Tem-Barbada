@@ -9,7 +9,7 @@
 		<div class="form-group col-xs-8 col-sm-4 col-md-4 col-lg-2 mb-2">
 			<select class="form-control  form-rounded col-md-12" name="cidade">
 				<option>Cidade</option>
-				<option v-for="city in cities">{{ city.name }}</option>
+				<option v-for="city in cities" :value="city.id">{{ city.name }}</option>
 			</select>
 		</div>
 		<div class="form-group col-xs-8 col-sm-4 col-md-4 col-lg-2 mb-2">

@@ -3,31 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Ad;
 
 class AdController extends Controller
 {
    
-    public function index()
+    public function showByState($state)
     {
-        //
+        return Ad::join('clients', 'clients.id', '=', 'ads.clients_id')
+            ->where('clients.state', $state)
+            ->select('ads.*')
+            ->get();
     }
 
-    public function create()
+    public function showByCity($city)
     {
-        //
+        return Ad::join('clients', 'clients.id', '=', 'ads.clients_id')
+            ->where('clients.city', $city)
+            ->select('ads.*')
+            ->get();
     }
 
     public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
     {
         //
     }
@@ -40,5 +37,10 @@ class AdController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getByClient($id)
+    {
+        return Ad::where('clients_id', $id)->get();
     }
 }

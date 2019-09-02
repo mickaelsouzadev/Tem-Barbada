@@ -18,4 +18,9 @@ class Client extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo('App\Category', 'foreign_key');
+    }
 }

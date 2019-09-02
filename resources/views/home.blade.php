@@ -237,6 +237,6 @@
 		</div>
 		
 	</footer>
-	<login-component></login-component>
+	<login></login>
 	
 @endsection
