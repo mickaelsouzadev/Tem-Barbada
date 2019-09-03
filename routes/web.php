@@ -20,7 +20,10 @@ Route::get('/cadastre-se', 'ClientController@create');
 Route::post('/login', 'ClientController@login');
 Route::get('/sair', 'ClientController@logout');
 Route::get('/painel-cliente', 'ClientController@index')->middleware('auth:client');
-
+Route::apiResource('clients', 'ClientController')->except([
+    'index', 'create',
+]);;
+Route::get('clients', 'ClientController@show');
 
 //States and cities routes
 Route::get('states', 'StateController@index');
@@ -31,15 +34,11 @@ Route::get('cities/disponible', 'CityController@getDisponible');
 
 
 
-Route::apiResource('clients', 'ClientController')->except([
-    'index', 'create',
-]);;
-
-Route::get('clients', 'ClientController@show');
-
 Route::apiResource('ads', 'ClientController')->except([
     'showByCity', 'showByState', 'getByClient', 'index'
 ]);;
+
+Route::apiResource('categories', 'CategoryController');
 
 Route::get('ads/{id}', 'AdController@getByClient');
 Route::get('barbadas/estado/{state}', 'AdController@showByState');

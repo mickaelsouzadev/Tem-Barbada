@@ -36,4 +36,5 @@ class ClientLoginRequest extends FormRequest
             'password.required'  => 'Preencha a sua senha',
         ];
     }
+    
 }

@@ -7,7 +7,7 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">     <ul class="navbar-nav mr-4 ml-auto">
 		 
 		 <li class="nav-item">
-		     <a class="nav-link" data-value="cadastre-se" href="index.html">Voltar <i class="fas fa-home"></i></a> 
+		     <a class="nav-link" data-value="cadastre-se" href="/">Voltar <i class="fas fa-home"></i></a> 
 		 </li> 
 		 <li class="nav-item dropdown">
 		 	<a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

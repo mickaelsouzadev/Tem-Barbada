@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Auth\LoginController as Controller;
+use App\Http\Requests\ClientRegisterRequest as RegisterRequest;
 use App\Http\Requests\ClientLoginRequest as LoginRequest;
 use App\Client;
 use Auth;
@@ -41,9 +43,26 @@ class ClientController extends Controller
 	    	->get();
 	}
 
-	public function store(Request $request)
+	public function store(RegisterRequest $request)
     {
-        
+        $validated = $request->validated();
+        // var_dump($request['phone_1']);
+        // var_dump($request['phone_2']);
+        // die;
+        return Client::create([
+        	'email'=>$request['email'],
+		    'password'=>Hash::make($request['password']),
+		    'fantasy_name'=>$request['fantasy_name'],
+		    'neighborhood'=>$request['neighborhood'],
+		    'street'=>$request['street'],
+		    'number'=>$request['number'],
+		    'address_extra'=>$request['adress_extra'],
+		    'phone_1'=>$request['phone_1'],
+		    'phone_2'=>$request['phone_2'],
+		    'state'=>$request['state'],
+		    'city'=>$request['city'],
+		    'categories_id'=>$request['categories_id']
+        ]);
     }
 
     public function update(Request $request, Client $client)

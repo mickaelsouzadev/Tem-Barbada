@@ -8,7 +8,19 @@ window.Popper = require('popper.js').default;
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.moment = require('moment');
 
+Vue.config.productionTip = false
+
+Vue.filter('formatDate', function(value) {
+
+  if (value) {
+
+    return moment(String(value)).format('DD/MM/YYYY')
+
+  }
+
+});
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -33,7 +45,7 @@ Vue.component('ads-by-city', require('./components/AdsByCityComponent.vue').defa
 Vue.component('ads-by-state', require('./components/AdsByStateComponent.vue').default);
 Vue.component('ad-modal', require('./components/AdModalComponent.vue').default);
 Vue.component('login', require('./components/LoginComponent.vue').default);
-
+Vue.component('register', require('./components/RegisterComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

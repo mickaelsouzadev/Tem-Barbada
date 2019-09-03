@@ -15,6 +15,10 @@ class CityController extends Controller
 
     public function getDisponible(Request $request)
     {
-        return City::join('clients', 'clients.city', '=', 'cities.id')->where('cities.state', $request->state_id)->select('cities.*')->get();
+        return City::join('clients', 'clients.city', '=', 'cities.id')
+        	->join('ads', 'ads.clients_id', '=', 'clients.id')
+        	->where('cities.state', $request->state_id)
+        	->select('cities.*')
+        	->get();
     }
 }

@@ -34,9 +34,12 @@
      		      		
      		      		<p><strong>Número: </strong>{{ ad.number }}</p>
      		      	</div>
-     		      	
+     		      	<div v-if="ad.address_extra" class="col-lg-12">
+     		      		
+     		      		<p><strong>Complemento: </strong>{{ ad.address_extra }}</p>
+     		      	</div>
      		    	<div class="col-lg-12">
-     		    		<p><strong>Valido até: </strong>{{ ad.end_state }}</p>
+     		    		<p><strong>Valido até: </strong>{{ ad.end_state | formatDate}}</p>
      		    	</div>
      		      	
      		      
