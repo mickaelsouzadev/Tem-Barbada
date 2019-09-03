@@ -28,6 +28,10 @@ Vue.component('my-profile-modal', require('./components/MyProfileModalComponent.
 Vue.component('profile', require('./components/ProfileComponent.vue').default);
 Vue.component('profile-nav', require('./components/ProfileNavComponent.vue').default);
 Vue.component('edit-my-info', require('./components/EditMyInfoComponent.vue').default);
+Vue.component('ad', require('./components/AdComponent.vue').default);
+Vue.component('ads-by-city', require('./components/AdsByCityComponent.vue').default);
+Vue.component('ads-by-state', require('./components/AdsByStateComponent.vue').default);
+Vue.component('ad-modal', require('./components/AdModalComponent.vue').default);
 Vue.component('login', require('./components/LoginComponent.vue').default);
 
 /**

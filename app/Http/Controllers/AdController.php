@@ -10,17 +10,43 @@ class AdController extends Controller
    
     public function showByState($state)
     {
-        return Ad::join('clients', 'clients.id', '=', 'ads.clients_id')
-            ->where('clients.state', $state)
-            ->select('ads.*')
-            ->get();
+        return view('ads')->with('data',  ['id' => $state, 'type' => 'state']);
     }
 
     public function showByCity($city)
     {
+        return view('ads')->with('data', ['id' => $city, 'type' => 'city']);
+    }
+
+    public function getByState($state)
+    {
         return Ad::join('clients', 'clients.id', '=', 'ads.clients_id')
+            ->join('states', 'states.id', '=', 'clients.state')
+            ->where('clients.state', $state)
+            ->select('ads.*', 
+                'clients.logo', 
+                'clients.fantasy_name', 
+                'clients.neighborhood',
+                'clients.number',
+                'clients.street',
+                'clients.address_extra',
+                'states.name as local_name')
+            ->get();
+    }
+
+    public function getByCity($city)
+    {
+        return Ad::join('clients', 'clients.id', '=', 'ads.clients_id')
+            ->join('cities', 'cities.id', '=', 'clients.city')
             ->where('clients.city', $city)
-            ->select('ads.*')
+            ->select('ads.*', 
+                'clients.logo', 
+                'clients.fantasy_name', 
+                'clients.neighborhood',
+                'clients.number',
+                'clients.street',
+                'clients.address_extra',
+                'cities.name as local_name')
             ->get();
     }
 

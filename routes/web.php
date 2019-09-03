@@ -23,9 +23,13 @@ Route::get('/painel-cliente', 'ClientController@index')->middleware('auth:client
 
 
 //States and cities routes
-Route::apiResource('states', 'StateController');
+Route::get('states', 'StateController@index');
+Route::get('states/disponible', 'StateController@getDisponible');
 
-Route::apiResource('cities', 'CityController');
+Route::get('cities', 'CityController@index');
+Route::get('cities/disponible', 'CityController@getDisponible');
+
+
 
 Route::apiResource('clients', 'ClientController')->except([
     'index', 'create',
@@ -40,7 +44,8 @@ Route::apiResource('ads', 'ClientController')->except([
 Route::get('ads/{id}', 'AdController@getByClient');
 Route::get('barbadas/estado/{state}', 'AdController@showByState');
 Route::get('barbadas/cidade/{city}', 'AdController@showByCity');
-
+Route::get('ads/state/{state}', 'AdController@getByState');
+Route::get('ads/city/{city}', 'AdController@getByCity');
 // Route::get('/home', 'HomeController@index')->name('home');
 
 
