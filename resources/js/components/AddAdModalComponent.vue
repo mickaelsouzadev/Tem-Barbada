@@ -9,28 +9,29 @@
         </button>
       </div>
     
-        
+        <form @submit.prevent="addAd">
          <div class="modal-body row">
             <div class="form-group col-lg-12">
                 <label>Título: </label>
-                <input class="form-control" type="text" name="titulo" placeholder="Título">
+                <input class="form-control" type="text" name="titulo" placeholder="Título" v-model="params.title">
             </div>
             <div class="form-group col-lg-12">
                 <label>Descrição: </label>
-                <textarea class="form-control" name="descricao" placeholder="Descrição"></textarea>
+                <textarea class="form-control" name="descricao" placeholder="Descrição"  v-model="params.description"></textarea>
             </div>
             <div class="form-group col-lg-12">
                 <label>Valido apartir de: </label>
-                <input class="form-control" type="date" name="apartir">
+                <input class="form-control" type="date" name="apartir"  v-model="params.start_date">
             </div>
             <div class="form-group col-lg-12">
                 <label>Valido até: </label>
-                <input class="form-control" type="date" name="ate">
+                <input class="form-control" type="date" name="ate"  v-model="params.end_date">
             </div>
           </div>
            <div class="modal-footer">
-            <button class="btn btn-success">Salvar</button>
+            <button type="submit" class="btn btn-success">Salvar</button>
         </div>  
+      </form>
     </div>
   </div>
 </div>
@@ -40,15 +41,24 @@
     export default {
     	data() {
     		return { 
-    			
+    			params: {
+            'title': '',
+            'description': '',
+            'start_date': '',
+            'end_date': '',
+          }
     		}
     	},
-        mounted() {
+      mounted() {
            
-        },
-        methods: {
-        	
+      },
+      methods: {
+        addAd() {
+          axios.post('ads', this.params).then((response) => {
+            console.log(response)
+          })
         }
+      }
     };
 </script>
 

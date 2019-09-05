@@ -21,6 +21,7 @@ class Client extends Authenticatable
        'address_extra',
        'phone_1',
        'phone_2',
+       'logo',
        'state',
        'city',
        'categories_id'

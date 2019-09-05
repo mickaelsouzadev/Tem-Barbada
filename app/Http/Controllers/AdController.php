@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Ad;
+use Auth;
 
 class AdController extends Controller
 {
@@ -52,7 +53,13 @@ class AdController extends Controller
 
     public function store(Request $request)
     {
-        //
+        return Ad::create([
+            'title'=>$request->title,
+            'description'=>$request->description,
+            'start_date'=>$request->start_date,
+            'end_date'=>$request->end_date,
+            'client_id'=>Auth::guard('client')->id()
+        ]);
     }
 
     public function update(Request $request, $id)

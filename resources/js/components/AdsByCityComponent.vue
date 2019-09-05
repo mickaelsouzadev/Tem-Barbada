@@ -1,5 +1,8 @@
 <template>
-    <div  class="col-lg-12">
+    <div  class="row">
+    	<div class="col-lg-12">
+        <h2 class="title">Barbadas de Hoje em <strong><span style="color: #ff8389">{{ ads[0].local_name }}</span></strong></h2>
+      </div>
      	<ad v-for="ad in ads" :ad="ad" v-bind:key="ads.id" @ad="setAd(ad)"></ad>
      	<div v-if="show">
      		<ad-modal :ad="ad"></ad-modal>

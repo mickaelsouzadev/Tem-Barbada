@@ -18,12 +18,22 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Client routes
 Route::get('/cadastre-se', 'ClientController@create');
 Route::post('/login', 'ClientController@login');
-Route::get('/sair', 'ClientController@logout');
-Route::get('/painel-cliente', 'ClientController@index')->middleware('auth:client');
-Route::apiResource('clients', 'ClientController')->except([
-    'index', 'create',
-]);;
-Route::get('clients', 'ClientController@show');
+
+Route::middleware(['auth:client'])->group(function () {
+	Route::get('/sair', 'ClientController@logout');
+	Route::get('/painel-cliente', 'ClientController@index');
+	Route::apiResource('clients', 'ClientController')->except([
+    	'index', 'create',]);
+    Route::get('clients', 'ClientController@show');
+    Route::apiResource('ads', 'AdController')->except([
+    	'index', 'show'
+	]);;
+
+});
+
+
+
+
 
 //States and cities routes
 Route::get('states', 'StateController@index');
@@ -34,9 +44,6 @@ Route::get('cities/disponible', 'CityController@getDisponible');
 
 
 
-Route::apiResource('ads', 'ClientController')->except([
-    'showByCity', 'showByState', 'getByClient', 'index'
-]);;
 
 Route::apiResource('categories', 'CategoryController');
 

@@ -45,24 +45,35 @@ class ClientController extends Controller
 
 	public function store(RegisterRequest $request)
     {
-        $validated = $request->validated();
-        // var_dump($request['phone_1']);
-        // var_dump($request['phone_2']);
-        // die;
-        return Client::create([
-        	'email'=>$request['email'],
-		    'password'=>Hash::make($request['password']),
-		    'fantasy_name'=>$request['fantasy_name'],
-		    'neighborhood'=>$request['neighborhood'],
-		    'street'=>$request['street'],
-		    'number'=>$request['number'],
-		    'address_extra'=>$request['adress_extra'],
-		    'phone_1'=>$request['phone_1'],
-		    'phone_2'=>$request['phone_2'],
-		    'state'=>$request['state'],
-		    'city'=>$request['city'],
-		    'categories_id'=>$request['categories_id']
-        ]);
+	    $validated = $request->validated();
+
+	    $imageName = null;
+
+	    $data = [
+	       	'email'=>$request->email,
+			'password'=>Hash::make($request->password),
+			'fantasy_name'=>$request->fantasy_name,
+			'neighborhood'=>$request->neighborhood,
+			'street'=>$request->street,
+			'number'=>$request->number,
+			'address_extra'=>$request->adress_extra,
+			'phone_1'=>$request->phone_1,
+			'phone_2'=>$request->phone_2,
+			'state'=>$request->state,
+			'city'=>$request->city,
+			'categories_id'=>$request->categories_id
+	    ];
+
+	    if($request->logo) {
+
+	    	$imageName = time().'.'.$request->logo->getClientOriginalExtension();
+
+	    	$request->logo->move(public_path('img'), $imageName);
+
+	    	$data['logo'] = $imageName;
+	    }
+   
+	    return Client::create($data);
     }
 
     public function update(Request $request, Client $client)

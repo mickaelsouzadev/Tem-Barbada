@@ -39,7 +39,7 @@
      		      		<p><strong>Complemento: </strong>{{ ad.address_extra }}</p>
      		      	</div>
      		    	<div class="col-lg-12">
-     		    		<p><strong>Valido até: </strong>{{ ad.end_state | formatDate}}</p>
+     		    		<p><strong>Valido até: </strong>{{ ad.end_date | formatDate}}</p>
      		    	</div>
      		      	
      		      

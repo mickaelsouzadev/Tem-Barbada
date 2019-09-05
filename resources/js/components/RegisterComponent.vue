@@ -1,6 +1,6 @@
 <template>
 	<div class="col-md-8">
-	        <form class="row form" @submit.prevent="register">
+	        <form class="row form" @submit.prevent="register" enctype="multipart/form-data">
 	            <div class="col-md-6">
 	                <div class="form-group">
 	                   	<label>Email: </label>
@@ -99,7 +99,7 @@
 	            <div class="col-md-12">
 	              	<div class="form-group">
 	                  	<label>Logo: </label>
-	    	      		<input type="file" class="form-control-file" name="logo">
+	    	      		<input type="file" class="form-control-file" name="logo" @change="setImage">
 	                </div>
 	            </div>
 	             <div class="col-md-12  text-center">
@@ -134,6 +134,8 @@
     			errors: [],
     			error: false,
     			formError: false,
+    			formData: null,
+    			image: '',
 			}
 		},
 		mounted() {
@@ -143,6 +145,8 @@
 			axios.get('/states').then((response) => {
             	this.states = response.data;
            	})
+
+           	this.formData = new FormData();
 		},
 		methods: {
 			getCities() {
@@ -158,28 +162,51 @@
         		}
         		
         	},
-			register() {
-				axios.post('clients/', this.params).then(() => {
-					console.log(response)
-				}).catch((error) => {
-					let status = error.response.status
+			register(e) {
+				e.preventDefault();
 
-					switch(status) {
-					    case 422:
-					        this.error = false;
-					        this.errors = JSON.parse(JSON.stringify(error.response.data.errors));
-					        this.formError = true;
-					        console.log(this.errors)
-					        break;
-					    default:
-					        this.error = true;
-					        this.errorMessage = "Erro interno no servidor, tente novamente mais tarde!";
-					        this.formError = false;
-					}
-				})
+				this.setFormData(this.params)
+					.then(() => {
+
+						const config = { headers: { 'content-type': 'multipart/form-data' } }
+
+						axios.post('clients/', this.formData).then(() => {
+						 	console.log(response)
+						}).catch((error) => {
+						 	let status = error.response.status
+
+						 	switch(status) {
+						 	    case 422:
+						 	        this.error = false;
+						 	        this.errors = JSON.parse(JSON.stringify(error.response.data.errors));
+						 	        this.formError = true;
+						 	        console.log(this.errors)
+						 	        break;
+							    default:
+							        this.error = true;
+							        this.errorMessage = "Erro interno no servidor, tente novamente mais tarde!";
+							        this.formError = false;
+							}
+						})
+
+					})
+			
 			},
 			clearError(name) {
 				this.errors[name] = false
+			},
+			setImage(e) {
+				console.log(e.target.files[0]);
+                this.image = e.target.files[0];
+			},
+			async setFormData(data) {
+				for(let key in data) {
+					this.formData.append(key, data[key])
+				}
+
+				if(this.image) {
+					this.formData.append('logo', this.image)
+				}
 			}
 		}
 	};
