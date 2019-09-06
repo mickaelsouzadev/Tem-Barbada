@@ -23,7 +23,7 @@ Route::middleware(['auth:client'])->group(function () {
 	Route::get('/sair', 'ClientController@logout');
 	Route::get('/painel-cliente', 'ClientController@index');
 	Route::apiResource('clients', 'ClientController')->except([
-    	'index', 'create',]);
+    	'index', 'create', 'store']);
     Route::get('clients', 'ClientController@show');
     Route::apiResource('ads', 'AdController')->except([
     	'index', 'show'
@@ -32,7 +32,7 @@ Route::middleware(['auth:client'])->group(function () {
 });
 
 
-
+Route::post('clients', 'ClientController@store');
 
 
 //States and cities routes
@@ -47,7 +47,7 @@ Route::get('cities/disponible', 'CityController@getDisponible');
 
 Route::apiResource('categories', 'CategoryController');
 
-Route::get('ads/{id}', 'AdController@getByClient');
+Route::get('ads/', 'AdController@getByClient');
 Route::get('barbadas/estado/{state}', 'AdController@showByState');
 Route::get('barbadas/cidade/{city}', 'AdController@showByCity');
 Route::get('ads/state/{state}', 'AdController@getByState');

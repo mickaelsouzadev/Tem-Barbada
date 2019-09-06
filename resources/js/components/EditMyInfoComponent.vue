@@ -9,7 +9,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form>
+          <form @submit.prevent="edit" enctype="multipart/form-data">
               <div class="modal-body row">
                 <div class="form-group col-lg-12">
                     <label>Email: </label>
@@ -64,8 +64,14 @@
                     <label>Logo: </label>
                     <input type="file" class="col-lg-12" name="logo">
                 </div>
+                <div class="col-lg-12 alert alert-danger" v-show="error">
+                    <div class="col-lg-8 ">
+                         {{ errorMessage }}
+                    </div>   
+                   
+                </div>
                 <div class="form-group col-lg-12">
-                    <button type="button" class="btn btn-primary col-lg-12">Salvar</button>
+                    <button type="submit" class="btn btn-primary col-lg-12">Salvar</button>
                 </div>
               </div>
         </form>
@@ -81,14 +87,21 @@
     		return { 
     			states: [],
                 cities: [],
-                profileParams: [],
+                profileParams: {},
+                errors: [],
+                error: false,
+                formError: false,
+                formData: null,
+                errorMessage: '',
+                image: '',
     		}
     	},
         mounted() {
             axios.get('/states').then((response) => {
                 this.states = response.data;
             })
-           
+
+            this.formData = new FormData();
         },
         watch: {
             profile () {
@@ -109,7 +122,59 @@
                     })
                 }
                 
-            }
+            },
+            edit(e) {
+                e.preventDefault();
+
+                this.setFormData(this.profileParams)
+                    .then(() => {
+                       
+                      
+                        const config = { headers: { 'content-type': 'multipart/form-data' } }
+
+
+
+                        axios.post('clients/'+this.profileParams.id, this.formData).then((response) => {
+                            
+                        }).catch((error) => {
+                            let status = error.response.status
+
+                            switch(status) {
+                                case 422:
+                                    this.error = false;
+                                    this.errors = JSON.parse(JSON.stringify(error.response.data.errors));
+                                    this.formError = true;
+                                    console.log(this.errors)
+                                    break;
+                                default:
+                                    this.error = true;
+                                    this.errorMessage = "Erro interno no servidor, tente novamente mais tarde!";
+                                    this.formError = false;
+                            }
+                        })
+
+                    })
+            
+            },
+            clearError(name) {
+                this.errors[name] = false
+            },
+            setImage(e) {
+                console.log(e.target.files[0]);
+                this.image = e.target.files[0];
+            },
+            async setFormData(data) {
+                for(let key in data) {
+                    console.log(key+': ', data[key])
+                    this.formData.append(key, data[key])
+                }
+
+                if(this.image) {
+                    this.formData.append('logo', this.image)
+                }
+
+                this.formData.append('_method', 'PUT')
+            }            
         }
     };
 </script>

@@ -102,6 +102,9 @@
 	    	      		<input type="file" class="form-control-file" name="logo" @change="setImage">
 	                </div>
 	            </div>
+	            <div class="col-md-12 alert alert-danger" v-show="error">
+	                {{ errorMessage }}
+	            </div>
 	             <div class="col-md-12  text-center">
 	              	<div class="form-group">
 	                  	<button type="submit" class="btn btn-primary col-md-6">Cadastre-se</button>
@@ -135,6 +138,7 @@
     			error: false,
     			formError: false,
     			formData: null,
+    			errorMessage: '',
     			image: '',
 			}
 		},
@@ -171,7 +175,7 @@
 						const config = { headers: { 'content-type': 'multipart/form-data' } }
 
 						axios.post('clients/', this.formData).then(() => {
-						 	console.log(response)
+						 	
 						}).catch((error) => {
 						 	let status = error.response.status
 

@@ -24,10 +24,10 @@
     	},
         mounted() {
           console.log('mounted')
-          this.getCities()
+          this.getAdsbyCity()
         },
         methods: {
-        	getCities() {
+        	getAdsbyCity() {
         		console.log(this.city_id)
         		axios.get('/ads/city/'+this.city_id).then((response) => {
            			this.ads = response.data;

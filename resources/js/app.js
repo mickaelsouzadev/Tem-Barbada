@@ -35,6 +35,8 @@ Vue.filter('formatDate', function(value) {
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('filter-component', require('./components/FilterComponent.vue').default);
 Vue.component('my-ad-modal', require('./components/MyAdModalComponent.vue').default);
+Vue.component('my-ad', require('./components/MyAdComponent.vue').default);
+Vue.component('my-ads', require('./components/MyAdsComponent.vue').default);
 Vue.component('add-ad-modal', require('./components/AddAdModalComponent.vue').default);
 Vue.component('my-profile-modal', require('./components/MyProfileModalComponent.vue').default);
 Vue.component('profile', require('./components/ProfileComponent.vue').default);

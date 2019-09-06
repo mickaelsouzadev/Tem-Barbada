@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Auth\LoginController as Controller;
 use App\Http\Requests\ClientRegisterRequest as RegisterRequest;
 use App\Http\Requests\ClientLoginRequest as LoginRequest;
+use App\Http\Requests\ClientUpdateRequest as UpdateRequest;
 use App\Client;
 use Auth;
 
@@ -76,9 +77,38 @@ class ClientController extends Controller
 	    return Client::create($data);
     }
 
-    public function update(Request $request, Client $client)
+    public function update(UpdateRequest $request, $id)
     {
-        
+
+    	
+     	$validated = $request->validated();
+
+     	$data = [
+     	    'email'=>$request->email,
+     		'fantasy_name'=>$request->fantasy_name,
+     		'neighborhood'=>$request->neighborhood,
+     		'street'=>$request->street,
+     		'number'=>$request->number,
+     		'address_extra'=>$request->adress_extra,
+     		'phone_1'=>$request->phone_1,
+     		'phone_2'=>$request->phone_2,
+     		'state'=>$request->state,
+     		'city'=>$request->city,
+     		'categories_id'=>$request->categories_id
+     	];
+
+        $imageName = null;
+
+        if(!is_string($request->logo)) {
+
+	    	$imageName = time().'.'.$request->logo->getClientOriginalExtension();
+
+	    	$request->logo->move(public_path('img'), $imageName);
+
+	    	$data['logo'] = $imageName;
+	    }
+
+	    return Client::where('id', $id)->update($data);
     }
 
     public function destroy(Client $client)

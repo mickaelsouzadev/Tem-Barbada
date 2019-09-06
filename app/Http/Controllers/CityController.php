@@ -19,6 +19,7 @@ class CityController extends Controller
         	->join('ads', 'ads.clients_id', '=', 'clients.id')
         	->where('cities.state', $request->state_id)
         	->select('cities.*')
+        	->groupBy('cities.id')
         	->get();
     }
 }

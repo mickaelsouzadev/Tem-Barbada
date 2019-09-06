@@ -18,23 +18,23 @@
       data() {
         return { 
           ads: [],
-          adModal: null,
+          ad: {},
           show: false,
           state_id: this.state
         }
       },
         mounted() {
-          this.getStates()
+          this.getAdsByState()
         },
         methods: {
-          getStates() {
+          getAdsByState() {
             axios.get('/ads/state/'+this.state_id).then((response) => {
                 this.ads = response.data;
               })
           },
           setAd(ad) {
             this.show = true
-            this.adModal = ad
+            this.ad = ad
             console.log(ad)
           }
         }

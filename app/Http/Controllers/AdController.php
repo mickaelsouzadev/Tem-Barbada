@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\AdRequest;
 use App\Ad;
 use Auth;
 
 class AdController extends Controller
 {
    
+    private $auth;
+
+    public function __construct(Auth $auth)
+    {
+        $this->auth = $auth::guard('client');
+    }
+
     public function showByState($state)
     {
         return view('ads')->with('data',  ['id' => $state, 'type' => 'state']);
@@ -51,29 +58,48 @@ class AdController extends Controller
             ->get();
     }
 
-    public function store(Request $request)
+    public function store(AdRequest $request)
     {
-        return Ad::create([
-            'title'=>$request->title,
-            'description'=>$request->description,
-            'start_date'=>$request->start_date,
-            'end_date'=>$request->end_date,
-            'client_id'=>Auth::guard('client')->id()
-        ]);
+        $validated = $request->validated();
+
+        $data = $request->all();
+        $data['clients_id'] = Auth::guard('client')->id();
+
+        return Ad::create($data);
     }
 
-    public function update(Request $request, $id)
+    public function update(AdRequest $request, $id)
     {
-        //
+        $validated = $request->validated();
+
+        $ad = Ad::find($id);
+
+        $ad->title = $request->title;
+        $ad->description = $request->description;
+        $ad->start_date = $request->start_date;
+        $ad->end_date = $request->end_date;
+
+        $ad->save();
     }
 
     public function destroy($id)
     {
-        //
+        $deleted = Ad::find($id)->delete();
+
+        if($deleted){
+           return response()->json([
+                'message'=>'Deletado!'
+            ], 200);
+        }
     }
 
-    public function getByClient($id)
+    public function getByClient()
     {
-        return Ad::where('clients_id', $id)->get();
+        $id = $this->auth->id();
+
+        return Ad::where('clients_id', $id)
+                    ->join('clients', 'clients.id', '=', 'ads.clients_id')
+                    ->select('ads.*', 'clients.logo')
+                    ->get();
     }
 }

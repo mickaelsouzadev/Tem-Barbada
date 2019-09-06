@@ -1,4 +1,5 @@
 <template>
+<div>
    <div class="modal fade" id="ad-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -11,16 +12,16 @@
     
         <div v-if="!edit_mode" class="modal-body row">
             <div class="col-lg-12">
-                    <p><strong>Título: </strong>Promoção Nova</p>
+                    <p><strong>Título: </strong>{{ ad.title }}</p>
             </div>
             <div class="col-lg-12">
-                    <p><strong>Descrição: </strong> Renovamos nossa frota, para comemorar estamos lançando essa promoção, 5% de desconto a cada 5km! Todos os dias apartir das 16 horas até as 23 horas!</p>
+                    <p><strong>Descrição: </strong>{{ ad.description }}</p>
             </div>
             <div class="col-lg-12">
-                    <p><strong>Valido apartir de: </strong>13/08/2019</p>
+                    <p><strong>Valido apartir de:  </strong>{{ ad.start_date | formatDate }}</p>
             </div>
             <div class="col-lg-12">
-                <p><strong>Valido até: </strong>05/09/2019</p>
+                <p><strong>Valido até:  </strong>{{ ad.end_date | formatDate }}</p>
             </div>
             
           
@@ -29,25 +30,36 @@
          <div v-else class="modal-body row">
             <div class="form-group col-lg-12">
                 <label>Título: </label>
-                <input class="form-control" type="text" name="titulo" placeholder="Título" value="Promoção Nova">
+                <input class="form-control" type="text" v-model="ad.title" name="titulo"  @change = "clearError('title')" placeholder="Título" value="Promoção Nova" v-bind:class="{ 'is-invalid':  (errors.title), 'is-valid': (errors.title === false) }">
+                <div class="invalid-feedback text-center" v-if="errors.title">{{ errors.title[0]}}</div>
+                    
             </div>
             <div class="form-group col-lg-12">
 
                 <label>Descrição: </label>
-                <textarea class="form-control" name="descricao">Renovamos nossa frota, para comemorar estamos lançando essa promoção, 5% de desconto a cada 5km! Todos os dias apartir das 16 horas até as 23 horas!</textarea>
+                <textarea class="form-control" placeholder="Descrição" name="descricao"  @change = "clearError('description')"  v-model="ad.description" v-bind:class="{ 'is-invalid':  (errors.description), 'is-valid': (errors.description === false) }">Renovamos nossa frota, para comemorar estamos lançando essa promoção, 5% de desconto a cada 5km! Todos os dias apartir das 16 horas até as 23 horas!</textarea>
+                <div class="invalid-feedback text-center" v-if="errors.description">{{ errors.description[0]}}</div>
+                    
             </div>
             <div class="form-group col-lg-12">
                 <label>Valido apartir de: </label>
-                <input class="form-control" type="date" value="2019-08-13" name="apartir">
+                <input class="form-control" type="date" value="2019-08-13"  @change = "clearError('start_date')" name="apartir" v-model="ad.start_date" v-bind:class="{ 'is-invalid':  (errors.start_date), 'is-valid': (errors.start_date === false) }">
+                <div class="invalid-feedback text-center" v-if="errors.start_date">{{ errors.start_date[0]}}</div>
+                    
             </div>
             <div class="form-group col-lg-12">
                 <label>Valido até: </label>
-                <input class="form-control" type="date" value="2019-09-05" name="ate">
+                <input class="form-control" type="date" value="2019-09-05"  @change = "clearError('end_date')" name="ate" v-model="ad.end_date" v-bind:class="{ 'is-invalid':  (errors.end_date), 'is-valid': (errors.end_date === false) }">
+                <div class="invalid-feedback text-center" v-if="errors.end_date">{{ errors.end_date[0]}}</div>
+                   
+            </div>
+            <div class="col-lg-8 alert alert-danger" v-show="error">
+                {{ errorMessage }}
             </div>
           </div>
         <div v-if="!edit_mode" class="modal-footer">
             <button class="btn btn-info" @click="edit()">Editar <i class="fas fa-pencil-alt"></i></button>
-            <button class="btn btn-danger">Excluir <i class="fas fa-trash"></i></button>
+            <button class="btn btn-danger" data-dismiss="modal"  data-toggle="modal" data-target="#delete-modal">Excluir <i class="fas fa-trash"></i></button>
         </div>
          <div v-else class="modal-footer">
             <button class="btn btn-success" @click="saveEdit()">Salvar</button>
@@ -56,13 +68,41 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title" style="color: #fff">Excluir</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    
+        <div  class="modal-body row">
+            <div class="col-lg-12">
+                 <h5>Deseja mesmo excluir essa barbada?</h5>
+            </div>
+           
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" data-dismiss="modal" @click="deleteAd()">Excluir</button>
+            <button class="btn btn-secondary cancel" data-dismiss="modal">Cancelar</button>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
 </template>
 
 <script>
     export default {
+        props: ['ad'],
     	data() {
     		return { 
-    			edit_mode: false
+    			edit_mode: false,
+                errors: [],
+                error: false,
+                errorMessage: '',
     		}
     	},
         mounted() {
@@ -73,8 +113,31 @@
                 this.edit_mode = true;
             },
             saveEdit() {
-                this.edit_mode = false;
-            }
+              
+                axios.put('ads/'+this.ad.id, this.ad).then((response) => {
+                    this.edit_mode = false;
+                }).catch((error) => {
+                    let status = error.response.status
+
+                    switch(status) {
+                        case 422:
+                        this.error = false;
+                        this.errors = JSON.parse(JSON.stringify(error.response.data.errors));
+                        break;
+                    default:
+                        this.error = true;
+                        this.errorMessage = "Erro interno no servidor, tente novamente mais tarde!";
+                    }
+                })
+            },
+            deleteAd() {
+                axios.delete('ads/'+this.ad.id).then((response) => {
+                    this.$emit('delete')
+                })
+            },
+            clearError(name) {
+                this.errors[name] = false
+            },
         }
     };
 </script>
