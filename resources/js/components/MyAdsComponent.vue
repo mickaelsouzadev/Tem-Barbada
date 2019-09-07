@@ -9,14 +9,16 @@
 				  </div>
 				</div>
 			</div >
-		<my-ad v-for="ad in ads" @ad="setAd(ad)" :ad="ad" :key="ad.id" ></my-ad>
+		<my-ad v-for="ad in ads" @ad="setAd(ad)" :logo="logo" :ad="ad" :key="ad.id" ></my-ad>
 		<div v-show="show">
 			<my-ad-modal :ad="ad" @update="updateAd(ad)" @delete="deleteAd(ad)"></my-ad-modal >	
-		</div>	
+		</div>
+		<add-ad-modal @create="createAd(...arguments)"></add-ad-modal>	
 	</div>
 </template>
 <script>
 	export default {
+	   props:['logo'],
 	   data() {
 	        return { 
 	          ads: [],
@@ -48,6 +50,9 @@
 	          		}
 	          	}
 	          },
+	          createAd(newAd) {
+	          	this.ads.push(newAd)
+	          }
 	        }
     };
 </script>

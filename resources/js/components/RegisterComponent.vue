@@ -105,6 +105,9 @@
 	            <div class="col-md-12 alert alert-danger" v-show="error">
 	                {{ errorMessage }}
 	            </div>
+	             <div class="col-md-12 alert alert-success" v-show="success">
+	                {{ successMessage }}
+	            </div>
 	             <div class="col-md-12  text-center">
 	              	<div class="form-group">
 	                  	<button type="submit" class="btn btn-primary col-md-6">Cadastre-se</button>
@@ -139,6 +142,8 @@
     			formError: false,
     			formData: null,
     			errorMessage: '',
+    			success: false,
+    			successMessage: '',
     			image: '',
 			}
 		},
@@ -174,8 +179,10 @@
 
 						const config = { headers: { 'content-type': 'multipart/form-data' } }
 
-						axios.post('clients/', this.formData).then(() => {
-						 	
+						axios.post('clients/', this.formData).then((response) => {
+							this.error = false;
+						 	this.success = true;
+						 	this.successMessage = response.data.message;
 						}).catch((error) => {
 						 	let status = error.response.status
 

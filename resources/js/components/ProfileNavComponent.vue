@@ -28,17 +28,14 @@
 </template>
 <script>
 	export default {
+		props:['info'],
 		data() {
 			return {
-				info: {},
 				src: '/img/'
 			}
 		},
 		mounted() {
-			axios.get('/clients').then((response) => {
-				this.info = response.data[0];
-				console.log(this.info)
-			}).catch((error) => console.error('Erro: ', error));
+		
 		},
 		methods: {
 

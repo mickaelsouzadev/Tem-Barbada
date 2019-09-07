@@ -62,7 +62,7 @@
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Logo: </label>
-                    <input type="file" class="col-lg-12" name="logo">
+                    <input type="file" class="col-lg-12" name="logo" @change="setImage">
                 </div>
                 <div class="col-lg-12 alert alert-danger" v-show="error">
                     <div class="col-lg-8 ">
@@ -135,7 +135,12 @@
 
 
                         axios.post('clients/'+this.profileParams.id, this.formData).then((response) => {
-                            
+
+                            if(response.data.logo) {
+                                this.profileParams.logo = response.data.logo;
+                            }
+
+                            this.$emit('update', this.profileParams);
                         }).catch((error) => {
                             let status = error.response.status
 
@@ -165,8 +170,10 @@
             },
             async setFormData(data) {
                 for(let key in data) {
-                    console.log(key+': ', data[key])
-                    this.formData.append(key, data[key])
+                    if(data[key] !== 'logo') {
+                        this.formData.append(key, data[key])
+                    }
+                
                 }
 
                 if(this.image) {

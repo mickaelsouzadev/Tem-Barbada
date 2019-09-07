@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdRequest;
+use App\Services\AdService;
 use App\Ad;
 use Auth;
 
@@ -26,80 +27,38 @@ class AdController extends Controller
         return view('ads')->with('data', ['id' => $city, 'type' => 'city']);
     }
 
-    public function getByState($state)
+    public function getByState($state, AdService $service)
     {
-        return Ad::join('clients', 'clients.id', '=', 'ads.clients_id')
-            ->join('states', 'states.id', '=', 'clients.state')
-            ->where('clients.state', $state)
-            ->select('ads.*', 
-                'clients.logo', 
-                'clients.fantasy_name', 
-                'clients.neighborhood',
-                'clients.number',
-                'clients.street',
-                'clients.address_extra',
-                'states.name as local_name')
-            ->get();
+        return $service->getAdByLocal('state', $state);
     }
 
-    public function getByCity($city)
+    public function getByCity($city, AdService $service)
     {
-        return Ad::join('clients', 'clients.id', '=', 'ads.clients_id')
-            ->join('cities', 'cities.id', '=', 'clients.city')
-            ->where('clients.city', $city)
-            ->select('ads.*', 
-                'clients.logo', 
-                'clients.fantasy_name', 
-                'clients.neighborhood',
-                'clients.number',
-                'clients.street',
-                'clients.address_extra',
-                'cities.name as local_name')
-            ->get();
+        return $service->getAdByLocal('city', $city);
     }
 
-    public function store(AdRequest $request)
+    public function store(AdRequest $request, AdService $service)
     {
-        $validated = $request->validated();
-
-        $data = $request->all();
-        $data['clients_id'] = Auth::guard('client')->id();
-
-        return Ad::create($data);
+        return $service->createAd($request, $this->auth->id());
     }
 
-    public function update(AdRequest $request, $id)
+    public function update(AdService $service, AdRequest $request, $id)
     {
-        $validated = $request->validated();
-
-        $ad = Ad::find($id);
-
-        $ad->title = $request->title;
-        $ad->description = $request->description;
-        $ad->start_date = $request->start_date;
-        $ad->end_date = $request->end_date;
-
-        $ad->save();
+        return $service->updateAd($request, $id);
     }
 
-    public function destroy($id)
+    public function destroy(AdService $service, $id)
     {
-        $deleted = Ad::find($id)->delete();
-
-        if($deleted){
-           return response()->json([
-                'message'=>'Deletado!'
-            ], 200);
-        }
+       return $service->deleteAd($id);
     }
 
-    public function getByClient()
+    public function getByClient(AdService $service)
     {
-        $id = $this->auth->id();
+        return $service->getAdByClient($this->auth->id());
+    }
 
-        return Ad::where('clients_id', $id)
-                    ->join('clients', 'clients.id', '=', 'ads.clients_id')
-                    ->select('ads.*', 'clients.logo')
-                    ->get();
+    public function test(AdService $service) 
+    {
+        return $service->getAdByLocal('state', 23);
     }
 }

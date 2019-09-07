@@ -34,6 +34,7 @@ Route::middleware(['auth:client'])->group(function () {
 
 Route::post('clients', 'ClientController@store');
 
+Route::get('/client/verify/{token}', 'ClientController@verifyClient');
 
 //States and cities routes
 Route::get('states', 'StateController@index');
@@ -54,7 +55,12 @@ Route::get('ads/state/{state}', 'AdController@getByState');
 Route::get('ads/city/{city}', 'AdController@getByCity');
 // Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('email-success', function() {
+	return view('email-success');
+});
 
+//test
 
+Route::get('/test', 'AdController@test');
 
 // Auth::routes();

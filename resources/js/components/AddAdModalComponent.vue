@@ -65,7 +65,7 @@
       methods: {
         addAd() {
           axios.post('ads', this.params).then((response) => {
-            console.log(response)
+            this.$emit('create', this.params);
           }).catch((error) => {
               let status = error.response.status
 

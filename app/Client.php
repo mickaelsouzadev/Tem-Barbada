@@ -3,9 +3,10 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Client extends Authenticatable
+class Client extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -24,7 +25,8 @@ class Client extends Authenticatable
        'logo',
        'state',
        'city',
-       'categories_id'
+       'categories_id',
+       'verify_register_token'
     ];
 
     protected $hidden = [

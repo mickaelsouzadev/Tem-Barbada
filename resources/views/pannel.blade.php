@@ -3,22 +3,9 @@
 @section('title', 'Painel do Cliente')
 
 @section('header')
-	<profile-nav></profile-nav>
+	<profile></profile>
+	
 
-@endsection
-
-@section('content')
-
-	<section class="container main-section page-out">
-		<div class="row">
-			<div class="col-lg-12">
-				<h2 class="title">Minhas Barbadas</strong></h2>
-			</div>
-		</div>
-			<my-ads></my-ads>
-				
-		
-	</section>
 @endsection
 
 @section('footer')
@@ -33,13 +20,4 @@
 	</div>
 	
 </footer>
-
-
-<add-ad-modal></add-ad-modal>
-<profile></profile>
-
-
-
-
-
 @endsection

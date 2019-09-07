@@ -24,7 +24,7 @@
                 <p><strong>Nome Fantasia: </strong>{{ profile.fantasy_name }}</p>
             </div>
             <div class="col-lg-12">
-                <p><strong>Categoria: </strong>Companhia de Taxi</p>
+                <p><strong>Categoria: </strong>{{ profile.category_name }}</p>
             </div>
             <div class="col-lg-12">
                 

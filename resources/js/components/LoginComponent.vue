@@ -77,7 +77,6 @@
                         case 400: 
                             this.error = true;
                             this.errorMessage = error.response.data.message;
-                            this.formError = true;
                             break;
                         case 422:
                             this.error = false;

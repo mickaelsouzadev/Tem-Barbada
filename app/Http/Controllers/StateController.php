@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\AdService;
 use App\State;
 
 class StateController extends Controller
@@ -12,13 +13,17 @@ class StateController extends Controller
         return State::all();
     }
 
-    public function getDisponible()
+    public function getDisponible(AdService $adService)
     {
-       return State::join('clients', 'clients.state', '=', 'states.id')
-        	->join('ads', 'ads.clients_id', '=', 'clients.id')
-        	->select('states.*')
-        	->groupBy('states.id')
-        	->get();
+       if($adService->verifyTime()) {
+            return State::join('clients', 'clients.state', '=', 'states.id')
+                ->join('ads', 'ads.clients_id', '=', 'clients.id')
+                ->where("ads.active", "=", 1)
+                ->select('states.*')
+                ->groupBy('states.id')
+                ->get();
+       }
+   
     }
 
 }

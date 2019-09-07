@@ -2,29 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Auth\LoginController as Controller;
 use App\Http\Requests\ClientRegisterRequest as RegisterRequest;
 use App\Http\Requests\ClientLoginRequest as LoginRequest;
 use App\Http\Requests\ClientUpdateRequest as UpdateRequest;
+use App\Services\ClientService;
 use App\Client;
 use Auth;
 
 class ClientController extends Controller
 {
+
+	protected $auth;
     
 	public function __construct()
 	{
 		parent::__construct();
+		$this->auth = Auth::guard('client');
 	}
 	
 	public function index() 
 	{
-
-		// if(!Auth::check()) {
-		// 	return redirect()->to('/home');
-		// }
 
 		return view('pannel');
 	}
@@ -34,81 +32,25 @@ class ClientController extends Controller
 	    return view('register');
 	}
 
-	public function show(Client $client)
+	public function show(ClientService $service)
 	{
-	    return Client::where('clients.id', Auth::id())
-	    	->join('categories', 'clients.categories_id', '=', 'categories.id')
-	    	->join('cities', 'clients.city', '=', 'cities.id')
-	    	->join('states', 'clients.state', '=', 'states.id')
-	    	->select('clients.*', 'categories.name as category_name', 'cities.name as city_name', 'states.name as state_name')
-	    	->get();
+	    return $service->getClientById($this->auth->id());
 	}
 
-	public function store(RegisterRequest $request)
+	public function showAll()
+	{
+		//
+	}
+
+	public function store(RegisterRequest $request, ClientService $service)
     {
-	    $validated = $request->validated();
-
-	    $imageName = null;
-
-	    $data = [
-	       	'email'=>$request->email,
-			'password'=>Hash::make($request->password),
-			'fantasy_name'=>$request->fantasy_name,
-			'neighborhood'=>$request->neighborhood,
-			'street'=>$request->street,
-			'number'=>$request->number,
-			'address_extra'=>$request->adress_extra,
-			'phone_1'=>$request->phone_1,
-			'phone_2'=>$request->phone_2,
-			'state'=>$request->state,
-			'city'=>$request->city,
-			'categories_id'=>$request->categories_id
-	    ];
-
-	    if($request->logo) {
-
-	    	$imageName = time().'.'.$request->logo->getClientOriginalExtension();
-
-	    	$request->logo->move(public_path('img'), $imageName);
-
-	    	$data['logo'] = $imageName;
-	    }
-   
-	    return Client::create($data);
+	  
+	    return $service->createClient($request);
     }
 
-    public function update(UpdateRequest $request, $id)
+    public function update(UpdateRequest $request, ClientService $service, $id)
     {
-
-    	
-     	$validated = $request->validated();
-
-     	$data = [
-     	    'email'=>$request->email,
-     		'fantasy_name'=>$request->fantasy_name,
-     		'neighborhood'=>$request->neighborhood,
-     		'street'=>$request->street,
-     		'number'=>$request->number,
-     		'address_extra'=>$request->adress_extra,
-     		'phone_1'=>$request->phone_1,
-     		'phone_2'=>$request->phone_2,
-     		'state'=>$request->state,
-     		'city'=>$request->city,
-     		'categories_id'=>$request->categories_id
-     	];
-
-        $imageName = null;
-
-        if(!is_string($request->logo)) {
-
-	    	$imageName = time().'.'.$request->logo->getClientOriginalExtension();
-
-	    	$request->logo->move(public_path('img'), $imageName);
-
-	    	$data['logo'] = $imageName;
-	    }
-
-	    return Client::where('id', $id)->update($data);
+     	return $service->updateClient($request, $id);
     }
 
     public function destroy(Client $client)
@@ -116,7 +58,8 @@ class ClientController extends Controller
         
     }
 
-    public function login(LoginRequest $request) {
+    public function login(LoginRequest $request) 
+    {
 
     	$validated = $request->validated();
 
@@ -124,6 +67,11 @@ class ClientController extends Controller
 
     	return $this->authenticate($credentials);
 
+    }
+
+    public function verifyClient(ClientService $service, $token) 
+    {
+    	return $service->verifyClient($token);
     }
 
 

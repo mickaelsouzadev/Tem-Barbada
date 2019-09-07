@@ -46,7 +46,7 @@ class TransportManager extends Manager
 
             $transport->setPassword($config['password']);
         }
-
+      
         return $this->configureSmtpDriver($transport, $config);
     }
 
