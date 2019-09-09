@@ -24,9 +24,20 @@ class ClientRepository implements ClientRepositoryInterface
 	    	->get();
 	}
 
-	public function getByToken($token)
+	public function getByRegisterToken($token)
 	{
 		return $this->client::where('verify_register_token', $token)->get();
+	}
+
+	public function getByPasswordToken($token)
+	{
+		return $this->client::where('password_token', $token)->get();
+
+	}
+
+	public function getByEmail($email)
+	{
+		return $this->client::where('email', $email)->get();
 	}
 
 	public function all()

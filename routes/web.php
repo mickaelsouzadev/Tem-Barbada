@@ -34,7 +34,12 @@ Route::middleware(['auth:client'])->group(function () {
 
 Route::post('clients', 'ClientController@store');
 
-Route::get('/client/verify/{token}', 'ClientController@verifyClient');
+Route::get('/verificacao-email/{token}', 'ClientController@verifyClient');
+
+Route::post('/forget-password', 'Auth\ForgetPasswordController@sendToken');
+
+Route::get('/nova-senha/{token}', 'Auth\ResetPasswordController@index');
+Route::put('/reset-password', 'Auth\ResetPasswordController@resetPassword');
 
 //States and cities routes
 Route::get('states', 'StateController@index');

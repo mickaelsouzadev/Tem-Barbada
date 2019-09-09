@@ -99,7 +99,7 @@ class ClientService
 	}
 
 	public function verifyClient($token) {
-		$client = $this->repository->getByToken($token)->toArray()[0];
+		$client = $this->repository->getByRegisterToken($token)->toArray()[0];
 	
 		if(!$client['verified']) {
 			$this->repository->update(['verified'=>1], $client['id']);

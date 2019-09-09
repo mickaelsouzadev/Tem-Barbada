@@ -48,6 +48,7 @@ Vue.component('ads-by-state', require('./components/AdsByStateComponent.vue').de
 Vue.component('ad-modal', require('./components/AdModalComponent.vue').default);
 Vue.component('login', require('./components/LoginComponent.vue').default);
 Vue.component('register', require('./components/RegisterComponent.vue').default);
+Vue.component('new-password', require('./components/NewPasswordComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

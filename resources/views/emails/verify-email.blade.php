@@ -9,6 +9,6 @@
         <br/>
         É muito bacana você fazer parte dessa idéia, confirme seu cadastro e bons negócios.
         <br/>
-        Confirme seu castro: <strong><a style="font-size: 16px;" href="{{url('client/verify', $client['verify_register_token'])}}">Clique aqui</a></strong>
+        Confirme seu castro: <strong><a style="font-size: 16px;" href="{{url('/verificacao-email', $client['verify_register_token'])}}">Clique aqui</a></strong>
       </body>
     </html>
