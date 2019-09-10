@@ -31,6 +31,7 @@
         		console.log(this.city_id)
         		axios.get('/ads/city/'+this.city_id).then((response) => {
            			this.ads = response.data;
+                console.log(this.ads)
            		})
         	},
         	setAd(ad) {

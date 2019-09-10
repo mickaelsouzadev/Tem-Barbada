@@ -13,6 +13,7 @@ class AdService
 	public function __construct(AdRepository $repository)
 	{
 		$this->repository = $repository;
+		$this->verifyTime();
 	}
 
 	public function getAdByLocal($type, $localId) 
@@ -26,12 +27,8 @@ class AdService
 		if($type === 'city') {
 			$local['table'] = 'cities';
 		}
-	
-		if($this->verifyTime()) {
-			return $this->repository->getByLocal($local, $localId);
-		}
-
 		
+		return $this->repository->getByLocal($local, $localId);
 	}
 
 	public function getAdByClient($clientId) {
@@ -73,14 +70,12 @@ class AdService
 		$date = Carbon::now()->toDateString();
 
 		foreach ($ads as $ad) {
-			if($ad['start_date'] == $date) {
+			if($ad['start_date'] <= $date) {
 				$this->repository->update(['active'=>1], $ad['id']);
-			} else if($ad['end_date'] == $date) {
-				$this->repository->update(['active'=>0], $ad['id']);
+			} else if($ad['end_date'] <= $date) {
+				$this->repository->delete($ad['id']);
 			}
 		}
-	
-		return true;
 
 	}
 

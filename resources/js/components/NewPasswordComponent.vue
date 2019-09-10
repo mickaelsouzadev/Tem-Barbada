@@ -1,7 +1,7 @@
 <template>
     <div>
     <form @submit.prevent="resetPassword" v-if="!success">
- 	  <div class="row justify-content-center">
+ 	  <div class="row justify-content-center mt-5">
             <div class="col-lg-6">
             <div class="col-lg-12 text-center">
                 <h5>Redefenir Senha</h5>
@@ -26,7 +26,7 @@
     
  	<div class="row justify-content-center" style="border: none">
  		<div v-show="error" class="alert alert-danger col-lg-6">{{ errorMessage }}</div>
-        <div v-show="success" class="alert alert-success col-lg-6"> Sua senha foi alterada com sucesso! </div>
+        <div v-show="success" class="alert alert-success col-lg-6 mt-5"> Sua senha foi alterada com sucesso! </div>
  	</div>
     </div>
 </template>
@@ -34,6 +34,7 @@
 <script>
 
     export default {
+        props:['token'],
     	data() {
     		return { 
     			password: '',
@@ -81,11 +82,12 @@
                 this.errors = {}
 
         		const params = {
-        		 	password: this.password
+        		 	password: this.password,
         		}
 
-                axios.put('/reset-password', params).then((response) => {
+                axios.put(`/reset-password/${this.token}`, params).then((response) => {
                     this.success = true
+                    this.error = false;
                 }).catch((error) => {
                     
                     let status = error.response.status

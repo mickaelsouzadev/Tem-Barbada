@@ -17,11 +17,10 @@ class ResetPasswordService
 
 	public function resetPassword($password, $token) 
 	{
-
 	 	return $this->repository->update(
 	 			['password' => Hash::make($password), 
 	 			'password_token' => ''],
-	 			$this->client[0]['id']);
+	 			$this->client['id']);
 	}
 
 	public function verifyToken($token) {

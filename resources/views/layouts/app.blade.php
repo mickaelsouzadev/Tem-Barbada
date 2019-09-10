@@ -12,8 +12,10 @@
 <body>
     <div id="app">
         @yield('header')
-       
-         @yield('content')
+        <div class="wrapper">
+            @yield('content')
+        </div>
+        
        
         @yield('footer')
     </div>

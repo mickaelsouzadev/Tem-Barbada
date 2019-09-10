@@ -14,21 +14,19 @@ class ResetPasswordController extends Controller
 	public function index($token)
 	{
 
-		$this->token = $token;
-		dd($this->token);
-		return view('new-password');
+		return view('new-password')->with(['token' => $token]);
 	}
 
-	public function resetPassword(Request $request, Service $service)
+	public function resetPassword(Request $request, Service $service, $token)
 	{
-		dd($this->token);
-		if(!$service->verifyToken($this->token)) {
+		
+		if(!$service->verifyToken($token)) {
 			return response()->json([
 				'message'=>"Código de redefinição inválido, por favor solicite novamente"
 			],400);
 		}
 
-		if(!$service->resetPassword($request->password, $this->token)) {
+		if(!$service->resetPassword($request->password, $token)) {
 			return response()->json([
 				'message'=>"Não foi possível redefinir a sua senha, solicite novamente ou tente mais tarde"
 			],400);

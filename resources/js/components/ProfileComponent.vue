@@ -9,7 +9,7 @@
                     <h2 class="title">Minhas Barbadas</strong></h2>
                 </div>
             </div>
-                <my-ads :logo="profile.logo"></my-ads>
+                <my-ads :logo="profile.logo" :limit="profile.limit_ad"></my-ads>
                     
             
         </section>

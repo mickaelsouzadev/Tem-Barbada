@@ -9,7 +9,7 @@
 		  	</div>
 		  
 		    <div class="text-right mt-3" style="font-size: .92em;">
-		    	{{ ad.end_date | formatDate }}
+		    	Valido Até: {{ ad.end_date | formatDate }}
 		    </div>
 		    	
 		  </div>

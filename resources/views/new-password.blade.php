@@ -25,7 +25,7 @@
 @endsection
 @section('content')
 	<section class="container main-section page-out">
-		<new-password></new-password>
+		<new-password token="{{ $token }}"></new-password>
 	</section>
 @endsection
 @section('footer')

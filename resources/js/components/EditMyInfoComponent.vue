@@ -39,6 +39,10 @@
                     <label>Número: </label>
                     <input type="number" name="numero" class="form-control" v-model="profileParams.number" placeholder="Número">
                 </div>
+                 <div class="form-group col-lg-12">
+                    <label>Complemento: </label>
+                    <input type="test" name="complementp" class="form-control" v-model="profileParams.address_extra" placeholder="Complemento">
+                </div>
                 <div class="form-group col-lg-12">
                     <label>Estado: </label>
                     <select class="form-control" v-model="profileParams.state" @change="getCities()">

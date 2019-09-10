@@ -23,12 +23,12 @@
             </div>
             <div class="form-group col-lg-12">
                 <label>Valido apartir de: </label>
-                <input class="form-control" type="date" name="apartir"  @change = "clearError('start_date')" v-model="params.start_date" v-bind:class="{ 'is-invalid':  (errors.start_date), 'is-valid': (errors.start_date === false) }">
+                <input class="form-control" :min="startMin" type="date" id="apartir"  @change = "clearError('start_date'); updateDateMinMax()" v-model="params.start_date"  v-bind:class="{ 'is-invalid':  (errors.start_date), 'is-valid': (errors.start_date === false) }">
                 <div class="invalid-feedback text-center" v-if="errors.start_date">{{ errors.start_date[0]}}</div>
             </div>
             <div class="form-group col-lg-12">
                 <label>Valido até: </label>
-                <input class="form-control" type="date" name="ate"  @change = "clearError('end_date')" v-model="params.end_date" v-bind:class="{ 'is-invalid':  (errors.end_date), 'is-valid': (errors.end_date === false) }">
+                <input class="form-control" :min="endMin" :max="endMax" type="date" id="ate"  @change = "clearError('end_date')" v-model="params.end_date" v-bind:class="{ 'is-invalid':  (errors.end_date), 'is-valid': (errors.end_date === false) }">
                 <div class="invalid-feedback text-center" v-if="errors.end_date">{{ errors.end_date[0]}}</div>
             </div>
              <div class="col-lg-8 alert alert-danger" v-show="error">
@@ -46,6 +46,7 @@
 
 <script>
     export default {
+      props:['limit'],
     	data() {
     		return { 
     			params: {
@@ -57,15 +58,21 @@
           errors: [],
           error: false,
           errorMessage: '',
+          startMin: '',
+          endMin: '',
+          endMax:''
     		}
     	},
       mounted() {
-           
+         this.setDateMinMax()
       },
       methods: {
         addAd() {
           axios.post('ads', this.params).then((response) => {
             this.$emit('create', this.params);
+            if(response) {
+              $('#add-ad-modal').modal('hide')
+            }
           }).catch((error) => {
               let status = error.response.status
 
@@ -79,6 +86,39 @@
                   this.errorMessage = "Erro interno no servidor, tente novamente mais tarde!";
               }
           })
+        },
+        setDateMinMax(){
+          let today = new Date();
+
+          this.startMin = today.toISOString().split("T")[0];
+
+            
+          let tomorrow = today
+          tomorrow.setDate(today.getDate() + 1)
+
+          this.endMin = tomorrow.toISOString().split("T")[0];
+
+          let fiveAfter = today
+          fiveAfter.setDate(today.getDate() + 4)
+
+          
+          this.endMax = fiveAfter.toISOString().split("T")[0];
+          console.log(this.endMin)
+          console.log(this.endMax)
+        },
+        updateDateMinMax() {
+          let start = new Date(Date.parse(this.params.start_date))
+
+          let tomorrow = start
+          tomorrow.setDate(start.getDate() + 1)
+
+          this.endMin = tomorrow.toISOString().split("T")[0];
+
+          let fiveAfter = start
+          fiveAfter.setDate(start.getDate() + 4)
+
+          this.endMax = fiveAfter.toISOString().split("T")[0];
+
         },
         clearError(name) {
           this.errors[name] = false
