@@ -10,7 +10,7 @@ class LoginController extends Controller
 {
 
 	protected $guard;
-	private $auth;
+	protected $auth;
 
 	public function __construct($guard = 'client')
 	{

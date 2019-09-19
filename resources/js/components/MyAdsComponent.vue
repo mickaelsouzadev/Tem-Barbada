@@ -24,7 +24,7 @@
 		<div v-show="show">
 			<my-ad-modal :ad="ad" @update="updateAd(ad)" @delete="deleteAd(ad)"></my-ad-modal >	
 		</div>
-		<add-ad-modal @create="createAd(...arguments)" ></add-ad-modal>	
+		<add-ad-modal @create="createAd(...arguments)" :limit="limit"></add-ad-modal>	
 	</div>
 </template>
 <style>

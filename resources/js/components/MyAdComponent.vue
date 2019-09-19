@@ -4,8 +4,9 @@
 			<img class="card-img-top img-fluid" :src="src+logo" alt="Card image cap">
 		  <div class="card-body">
 		  	<div class="text-center">
-		  		 <h5 class="mt-1 mb-2 card-title-ad">{{ ad.title }}</h5> 
-		    	<p class="card-text">{{ ad.description }}</p>
+		  		<h5 class="mt-1 mb-2 card-title-ad">{{ ad.title }}</h5> 
+		    	<div v-if="ad.description.length<40"><p class="card-text">{{ ad.description }}</p></div>
+              	<div v-else><p class="card-text">{{ ad.description.substr(0,40)+"..."  }}</p></div> 
 		  	</div>
 		  
 		    <div class="text-right mt-3" style="font-size: .92em;">

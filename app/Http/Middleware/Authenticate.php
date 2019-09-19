@@ -26,7 +26,7 @@ class Authenticate extends Middleware
             if (array_first($this->guards) === 'client') {
                 return route('home');
             }
-            return route('login');
+            return route('admin.login');
         }
     }
 }

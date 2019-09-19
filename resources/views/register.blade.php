@@ -4,7 +4,7 @@
 
 @section('header')
 	<nav class="navbar navbar-expand-lg fixed-top ">  
-		 <a class="navbar-brand" href="#"><img src="{{ asset('img/logo-nav-2.png')}}" width="100"></a>
+		 <a class="navbar-brand" href="/"><img src="{{ asset('img/logo-nav-2.png')}}" width="100"></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">  
 		 <span class="navbar-toggler-icon"></span>
 		</button>

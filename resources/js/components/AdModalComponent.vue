@@ -20,24 +20,40 @@
      		    		<p><strong>Título: </strong>{{ ad.title }}</p>
      		    	</div>
      		    	<div class="col-lg-12">
-     		    			<p><strong>Descrição: </strong> {{ ad.description }}</p>
+     		    		<p><strong>Descrição: </strong> {{ ad.description }}</p>
      		    	</div>
-     		    		<div class="col-lg-12">
+                     <div v-if="ad.city" class="col-lg-12">
+                              
+                         <p><strong>Cidate: </strong>{{ ad.city}}</p>
+                     </div>
+     		    	<div class="col-lg-12">
      		      		
-     		      		<p><strong>Bairro: </strong>{{ ad.neighborhood }}</p>
-     		      	</div>
-     		      	<div class="col-lg-12">
+     		      	<p><strong>Bairro: </strong>{{ ad.neighborhood }}</p>
+     		      </div>
+     		      <div class="col-lg-12">
      		      		
-     		      		<p><strong>Rua: </strong>{{ ad.street }}</p>
-     		      	</div>
-     		      	<div class="col-lg-12">
+     		      	<p><strong>Rua: </strong>{{ ad.street }}</p>
+     		      </div>
+     		      <div class="col-lg-12">
      		      		
-     		      		<p><strong>Número: </strong>{{ ad.number }}</p>
-     		      	</div>
-     		      	<div v-if="ad.address_extra" class="col-lg-12">
+     		      	<p><strong>Número: </strong>{{ ad.number }}</p>
+     		      </div>
+     		      <div v-if="ad.address_extra" class="col-lg-12">
      		      		
-     		      		<p><strong>Complemento: </strong>{{ ad.address_extra }}</p>
-     		      	</div>
+     		      	<p><strong>Complemento: </strong>{{ ad.address_extra }}</p>
+     		      </div>
+                       <div class="col-lg-12">
+                              
+                         <p><strong>Email: </strong>{{ ad.email }}</p>
+                     </div>
+                      <div class="col-lg-12">
+                              
+                         <p><strong>Telefone: </strong>{{ ad.phone_1 }}</p>
+                     </div>
+                       <div class="col-lg-12">
+                              
+                         <p><strong>Telefone 2: </strong>{{ ad.phone_2 }}</p>
+                     </div>
      		    	<div class="col-lg-12">
      		    		<p><strong>Valido até: </strong>{{ ad.end_date | formatDate}}</p>
      		    	</div>

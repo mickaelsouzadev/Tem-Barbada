@@ -23,21 +23,28 @@ class AdRepository implements AdRepositoryInterface
 	public function getByLocal(array $local, $localId) 
 	{
 		
-		return $this->ad::join("clients", "clients.id", "=", "ads.clients_id")
+		$result = $this->ad::join("clients", "clients.id", "=", "ads.clients_id")
             ->join("{$local['table']}", "{$local['table']}.id", "=", "clients.{$local['field']}")
             ->where("clients.{$local['field']}", $localId)
             ->where("ads.active", "=", 1)
             ->select("ads.*", 
                 "clients.logo", 
                 "clients.fantasy_name", 
+                "clients.email", 
+                "clients.phone_1",
+                "clients.phone_2",  
                 "clients.neighborhood",
                 "clients.number",
                 "clients.street",
                 "clients.address_extra",
-                "{$local['table']}.name as local_name")
-            ->get();
+                "{$local['table']}.name as local_name");
 
-
+        if($local['table'] == 'states') {
+        	$result->join("cities", "cities.id", "=", "clients.city")
+        			->addSelect("cities.name as city");
+        }
+            
+        return $result->get();
 	}
 
 	public function getByClient($clientId) {

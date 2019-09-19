@@ -104,7 +104,7 @@ class ClientService
 		if(!$client['verified']) {
 			$this->repository->update(['verified'=>1], $client['id']);
 
-			return redirect('/email-success');
+			return true;
 		}
 	}
 

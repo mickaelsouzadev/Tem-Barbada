@@ -68,8 +68,12 @@
       },
       methods: {
         addAd() {
+          this.params.limit = this.limit;
+          console.log(this.limit);
+          console.log(this.params.limit);
           axios.post('ads', this.params).then((response) => {
-            this.$emit('create', this.params);
+            // console.log();
+            this.$emit('create', response.data);
             if(response) {
               $('#add-ad-modal').modal('hide')
             }
@@ -107,6 +111,7 @@
           console.log(this.endMax)
         },
         updateDateMinMax() {
+          console.log('Caiu aqui');
           let start = new Date(Date.parse(this.params.start_date))
 
           let tomorrow = start

@@ -9,7 +9,7 @@
 @endsection
 
 @section('footer')
-<footer class="bg-primary container-fluid footer footer-fixed">
+<footer class="bg-primary container-fluid footer">
 	<div class="row justify-content-center">
 		<div class="col-lg-12 text-center">
 			Tem Barbada &copy; 2019

@@ -32,7 +32,7 @@ Route::middleware(['auth:client'])->group(function () {
 });
 
 
-Route::post('clients', 'ClientController@store');
+Route::post('register', 'ClientController@store');
 
 Route::get('/verificacao-email/{token}', 'ClientController@verifyClient');
 
@@ -60,12 +60,16 @@ Route::get('ads/state/{state}', 'AdController@getByState');
 Route::get('ads/city/{city}', 'AdController@getByCity');
 // Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('email-success', function() {
+Route::get('email-success/{token}', function() {
 	return view('email-success');
 });
 
-//test
+Route::get('admin/login', 'Admin\AdminController@showLogin')->name('admin.login');
+Route::post('admin/login', 'Admin\AdminController@login');
 
-Route::get('/test', 'AdController@test');
+Route::middleware(['auth:admin'])->group(function () {
+	Route::get('admin', 'Admin\AdminController@index');
+});
+
 
 // Auth::routes();

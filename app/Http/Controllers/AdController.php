@@ -39,7 +39,15 @@ class AdController extends Controller
 
     public function store(AdRequest $request, AdService $service)
     {
-        return $service->createAd($request, $this->auth->id());
+        $created = $service->createAd($request, $this->auth->id());
+       
+        if(!$created) {
+            return response()->json([
+                'message'=>'Você atingiu seu limite de anúncios!'
+            ], 400);
+        }
+
+        return $created;
     }
 
     public function update(AdService $service, AdRequest $request, $id)
@@ -57,8 +65,4 @@ class AdController extends Controller
         return $service->getAdByClient($this->auth->id());
     }
 
-    public function test(AdService $service) 
-    {
-        return $service->getAdByLocal('state', 23);
-    }
 }

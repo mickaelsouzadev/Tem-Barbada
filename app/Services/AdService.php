@@ -39,10 +39,15 @@ class AdService
 	{
 		$validated = $request->validated();
 
-        $data = $request->only('title', 'description', 'start_date', 'end_date');
-        $data['clients_id'] = $clientId;
+		if($this->verifyLimit($request->limit, $clientId)) {
+			$data = $request->only('title', 'description', 'start_date', 'end_date');
+       		$data['clients_id'] = $clientId;
+       		
+       		return $this->repository->create($data);
+		}
 
-        return $this->repository->create($data);
+		return false;
+     
 	}
 
 	public function updateAd($request, $adId)
@@ -63,6 +68,17 @@ class AdService
 		}
 	}
 
+	protected function verifyLimit($limit, $id)
+	{
+		$data = $this->getAdByClient($id);
+
+		if(count($data) == $limit) {
+			return false;
+		} 
+
+		return true;
+	}
+
 	public function verifyTime()
 	{
 		$data = $this->repository->all();
@@ -70,10 +86,12 @@ class AdService
 		$date = Carbon::now()->toDateString();
 
 		foreach ($ads as $ad) {
-			if($ad['start_date'] <= $date) {
-				$this->repository->update(['active'=>1], $ad['id']);
-			} else if($ad['end_date'] <= $date) {
+			if($ad['end_date'] <= $date) {
 				$this->repository->delete($ad['id']);
+			} else if($ad['start_date'] <= $date) {
+				$this->repository->update(['active'=>1], $ad['id']);
+			} else if($ad['start_date'] >= $date) {
+				$this->repository->update(['active'=>0], $ad['id']);
 			}
 		}
 

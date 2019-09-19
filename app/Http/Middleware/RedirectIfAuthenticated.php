@@ -19,6 +19,9 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
 
+            if($guard === 'admin') {
+                return redirect('admin');
+            }
 
             return redirect('home');//Only Admin, Client uses a modal
 

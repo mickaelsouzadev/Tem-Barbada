@@ -10,6 +10,7 @@ p {
 
 .card {
 	border:none;
+	box-shadow: 5px 10px 18px #999;
 }
 
 .navbar{
@@ -238,6 +239,13 @@ p {
   	margin-top: 3rem;
 }
 
+.footer-fixed {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	padding: 2rem;
+	line-height: 25px;
+}
 
 #footer-mini {
 	font-size: 0.9rem;
@@ -309,3 +317,34 @@ p {
       min-height: 100%;
       margin-bottom: -50px;
     }
+
+.email-success {
+	padding: 3rem;
+	margin-top: 2rem;
+	margin-bottom: 6rem;
+}
+
+.rounded-circle {
+	clip-path: circle();
+}
+
+.circular-portrait {
+  position: relative;
+  overflow: hidden;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+}
+
+.circular-portrait img {
+  width: 100%;
+  height: auto;
+  margin-top: -30px;
+}
+
+.img-profile {
+	width: 46px;
+	height: 46px;
+	clip-path: circle();
+	margin-right: 0.7rem;
+}

@@ -32,6 +32,26 @@
 		    	      	<div class="invalid-feedback text-center" v-if="errors.categories_id">{{ errors.categories_id[0]}}</div>
 		    	    </div>
 	            </div>
+ 				<div class="col-md-3">
+	                <div class="form-group">
+	                  	<label>Estado: </label>
+	    	      		<select class="form-control col-md-12" v-bind:class="{ 'is-invalid':  (errors.state), 'is-valid': (errors.state === false) }" v-model="params.state" @change="getCities() | clearError('state')">
+	    					<option value="">Estado</option>
+	    					<option v-for="state in states" :value="state.id">{{ state.name }}</option>
+	    				</select>
+	    				<div class="invalid-feedback text-center" v-if="errors.state">{{ errors.state[0]}}</div>
+	                </div>
+	            </div>
+	            <div class="col-md-5">
+	                <div class="form-group">
+	                  	<label>Cidade: </label>
+	    	      		<select class="form-control col-md-12" @change = "clearError('city')" v-bind:class="{ 'is-invalid':  (errors.city), 'is-valid': (errors.city === false) }" v-model="params.city">
+	    					<option value="">Cidade</option>
+	    					<option v-for="city in cities" :value="city.id">{{ city.name }}</option>
+	    				</select>
+	    				<div class="invalid-feedback text-center" v-if="errors.city">{{ errors.city[0]}}</div>
+	                </div>
+	            </div>	            
 	             <div class="col-md-4">
 	                <div class="form-group">
 	                  	<label>Bairro: </label>
@@ -58,26 +78,6 @@
 	                  	<label class="mb-1">Complemento: </label>
 		    	      	<input type="text" name="complemento" class="form-control" @change = "clearError('address_extra')" v-bind:class="{ 'is-invalid':  (errors.extra_address), 'is-valid': (errors.address_extra === false) }" placeholder="Complemento" v-model="params.adress_extra">
 		    	      	<div class="invalid-feedback text-center" v-if="errors.extra_address">{{ errors.extra_address[0]}}</div>
-	                </div>
-	            </div>
-	            <div class="col-md-3">
-	                <div class="form-group">
-	                  	<label>Estado: </label>
-	    	      		<select class="form-control col-md-12" v-bind:class="{ 'is-invalid':  (errors.state), 'is-valid': (errors.state === false) }" v-model="params.state" @change="getCities() | clearError('state')">
-	    					<option value="">Estado</option>
-	    					<option v-for="state in states" :value="state.id">{{ state.name }}</option>
-	    				</select>
-	    				<div class="invalid-feedback text-center" v-if="errors.state">{{ errors.state[0]}}</div>
-	                </div>
-	            </div>
-	            <div class="col-md-5">
-	                <div class="form-group">
-	                  	<label>Cidade: </label>
-	    	      		<select class="form-control col-md-12" @change = "clearError('city')" v-bind:class="{ 'is-invalid':  (errors.city), 'is-valid': (errors.city === false) }" v-model="params.city">
-	    					<option value="">Cidade</option>
-	    					<option v-for="city in cities" :value="city.id">{{ city.name }}</option>
-	    				</select>
-	    				<div class="invalid-feedback text-center" v-if="errors.city">{{ errors.city[0]}}</div>
 	                </div>
 	            </div>
 	            <div class="col-md-6">
@@ -179,7 +179,7 @@
 
 						const config = { headers: { 'content-type': 'multipart/form-data' } }
 
-						axios.post('clients/', this.formData).then((response) => {
+						axios.post('/register', this.formData).then((response) => {
 							this.error = false;
 						 	this.success = true;
 						 	this.successMessage = response.data.message;

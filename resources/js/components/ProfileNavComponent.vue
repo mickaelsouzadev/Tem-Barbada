@@ -1,6 +1,6 @@
 <template>
 	<nav class="navbar navbar-expand-lg fixed-top ">  
-		 <a class="navbar-brand" href="#"><img src="/img/logo-nav-2.png" width="100"></a>
+		 <a class="navbar-brand" href="/"><img src="/img/logo-nav-2.png" width="100"></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">  
 		 <span class="navbar-toggler-icon"></span>
 		</button>
@@ -11,7 +11,7 @@
 		 </li> 
 		 <li class="nav-item dropdown">
 		 	<a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		 	    <img :src="src+info.logo" class="rounded-circle" width="46"> Meu Perfil  <i class="fas fa-caret-down"></i>
+		 	    <img :src="src+info.logo" class="img-profile"> Meu Perfil  <i class="fas fa-caret-down"></i>
 		 	</a>
 		 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 		 	  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#perfil-modal"><i class="fas fa-user"></i>  Ver Pefil</a>

@@ -43,13 +43,13 @@
             </div>
             <div class="form-group col-lg-12">
                 <label>Valido apartir de: </label>
-                <input class="form-control" type="date" value="2019-08-13"  @change = "clearError('start_date')" name="apartir" v-model="ad.start_date" v-bind:class="{ 'is-invalid':  (errors.start_date), 'is-valid': (errors.start_date === false) }">
+                <input class="form-control" type="date" :min="startMin" id="apartir"  @change = "clearError('start_date'); updateDateMinMax()"  name="apartir" v-model="ad.start_date" v-bind:class="{ 'is-invalid':  (errors.start_date), 'is-valid': (errors.start_date === false) }">
                 <div class="invalid-feedback text-center" v-if="errors.start_date">{{ errors.start_date[0]}}</div>
                     
             </div>
             <div class="form-group col-lg-12">
                 <label>Valido até: </label>
-                <input class="form-control" type="date" value="2019-09-05"  @change = "clearError('end_date')" name="ate" v-model="ad.end_date" v-bind:class="{ 'is-invalid':  (errors.end_date), 'is-valid': (errors.end_date === false) }">
+                <input class="form-control" :min="endMin" :max="endMax" type="date" id="ate"  @change = "clearError('end_date')"name="ate" v-model="ad.end_date" v-bind:class="{ 'is-invalid':  (errors.end_date), 'is-valid': (errors.end_date === false) }">
                 <div class="invalid-feedback text-center" v-if="errors.end_date">{{ errors.end_date[0]}}</div>
                    
             </div>
@@ -103,10 +103,13 @@
                 errors: [],
                 error: false,
                 errorMessage: '',
+                startMin: '',
+                endMin: '',
+                endMax:''
     		}
     	},
         mounted() {
-           
+            this.setDateMinMax()
         },
         methods: {
         	edit() {
@@ -129,6 +132,39 @@
                         this.errorMessage = "Erro interno no servidor, tente novamente mais tarde!";
                     }
                 })
+            },
+            setDateMinMax(){
+              let today = new Date();
+
+              this.startMin = today.toISOString().split("T")[0];
+
+                
+              let tomorrow = today
+              tomorrow.setDate(today.getDate() + 1)
+
+              this.endMin = tomorrow.toISOString().split("T")[0];
+
+              let fiveAfter = today
+              fiveAfter.setDate(today.getDate() + 4)
+
+              
+              this.endMax = fiveAfter.toISOString().split("T")[0];
+              console.log(this.endMin)
+              console.log(this.endMax)
+            },
+            updateDateMinMax() {
+              let start = new Date(Date.parse(this.ad.start_date))
+
+              let tomorrow = start
+              tomorrow.setDate(start.getDate() + 1)
+
+              this.endMin = tomorrow.toISOString().split("T")[0];
+
+              let fiveAfter = start
+              fiveAfter.setDate(start.getDate() + 4)
+
+              this.endMax = fiveAfter.toISOString().split("T")[0];
+
             },
             deleteAd() {
                 axios.delete('ads/'+this.ad.id).then((response) => {

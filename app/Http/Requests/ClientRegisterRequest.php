@@ -32,7 +32,7 @@ class ClientRegisterRequest extends FormRequest
             'number' => 'required',
             'address_extra' => 'max:150',
             'phone_1' => 'required|max:50',
-            'phone_2' => 'required|max:50',
+            'phone_2' => 'max:50',
             'state' => 'required',
             'city' => 'required',
             'categories_id' => 'required'
@@ -58,7 +58,6 @@ class ClientRegisterRequest extends FormRequest
             'adress_extra.max'  => 'Limite de caracteres excedido',
             'phone_1.required'  => 'Informe o seu telefone principal',
             'phone_1.max'  => 'Limite de caracteres excedido',
-            'phone_2.required'  => 'Informe o seu telefone segundário',
             'phone_2.max'  => 'Limite de caracteres excedido',
             'state.required'  => 'Informe o seu estado',
             'city.required'  => 'Informe a sua cidade',

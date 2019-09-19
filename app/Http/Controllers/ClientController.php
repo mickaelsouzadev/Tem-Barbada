@@ -13,12 +13,12 @@ use Auth;
 class ClientController extends Controller
 {
 
-	protected $auth;
+	// protected $auth;
     
 	public function __construct()
 	{
 		parent::__construct();
-		$this->auth = Auth::guard('client');
+		// $this->auth = Auth::guard('client');
 	}
 	
 	public function index() 
@@ -71,7 +71,11 @@ class ClientController extends Controller
 
     public function verifyClient(ClientService $service, $token) 
     {
-    	return $service->verifyClient($token);
+    	if($service->verifyClient($token)) {
+    		return view('email-success');
+    	}
+
+    	return view('email-failed');
     }
 
 

@@ -21,10 +21,9 @@
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Categoria: </label>
-                    <select class="form-control">
-                        <option>Categoria</option>
-                        <option>Loja</option>
-                        <option selected>Companhia de Taxi</option>
+                    <select class="form-control" v-model="profileParams.categories_id">
+                        <option value="">Categoria</option>
+                        <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
                     </select>
                 </div>
                     <div class="form-group col-lg-12">
@@ -91,6 +90,7 @@
     		return { 
     			states: [],
                 cities: [],
+                categories: [],
                 profileParams: {},
                 errors: [],
                 error: false,
@@ -104,7 +104,9 @@
             axios.get('/states').then((response) => {
                 this.states = response.data;
             })
-
+            axios.get('/categories').then((response) => {
+                this.categories = response.data
+            })
             this.formData = new FormData();
         },
         watch: {
@@ -145,6 +147,11 @@
                             }
 
                             this.$emit('update', this.profileParams);
+
+                            if(response) {
+                                $('#edit-modal').modal('hide')
+                            }
+
                         }).catch((error) => {
                             let status = error.response.status
 
