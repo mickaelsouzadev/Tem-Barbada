@@ -6,7 +6,10 @@
           <div class="card-header bg-primary" style="font-size: .95em">
             <i class="fas fa-building"></i> {{ ad.fantasy_name }}
           </div> 
-          <img class="card-img-top img-fluid" :src="src + ad.logo" alt="Card image cap">
+          <div class="card-img-section" ref="card">
+             <img :src="src + ad.logo" alt="Card image cap" ref="img" id="img">
+          </div>
+         
           
           <div class="card-body text-center">
             <!-- <strong style="font-size: .9em;">Taxi Carrara ou Carrara Taxi</strong> -->
@@ -35,11 +38,29 @@
     		}
     	},
         mounted() {
+          let $img = $(this.$refs.img);
+          let $card = $(this.$refs.card)
+
+          const vue = this
+
+          $img.on('load', function(){
+            let aspectRatio = vue.getAspectRatio($(this).width(), $(this).height());
+       
+            if(aspectRatio == '4:3') {
+              $img.addClass('img-card')
+            } else {
+              $card.css('padding', '2rem 0rem 2rem 0rem');
+            }
            
+          })
         },
         methods: {
         	showAd() {
             this.$emit('ad')
+          },
+          getAspectRatio(width, height) {
+              let ratio = width / height;
+              return ( Math.abs( ratio - 4 / 3 ) < Math.abs( ratio - 16 / 9 ) ) ? '4:3' : '16:9';
           }
         }
     };

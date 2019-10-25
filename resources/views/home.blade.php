@@ -180,33 +180,13 @@
 				</div>
 			</div>
 			<div class="row ">
-				<div class="col-lg-5 contact-col">
-					<form>
-						<div class="form-group">
-							<label>Nome</label>
-							<input type="text" name="nome" class="form-control" placeholder="Seu Nome">
-						</div>
-						<div class="form-group">
-							<label>Email</label>
-							<input type="email" name="email" class="form-control" placeholder="Seu Email">
-						</div>
-						<div class="form-group">
-							<label>Mensagem</label>
-							<textarea name="msg" placeholder="Sua Mensagem" class="form-control" ></textarea>
-								
-							
-						</div>
-						<div class="form-group text-center">
-							<button class="btn btn-primary" style="padding: 0.6rem 2rem" >Enviar Mensagem</button>
-						</div>
-					</form>
-				</div>
+				<contact></contact>
 				<div class="col-lg-6" id="contact-infos">
 					<div class="col-lg-12 contact-info">
 						<strong><i class="fas fa-envelope fa-1x"></i></strong> tembarbada@tembarbada.com
 					</div>
 					<div class="col-lg-12 contact-info">
-						<strong><i class="fas fa-phone-alt fa-1x"></i></strong> (51)9999-0000
+						<strong><i class="fas fa-phone-alt fa-1x"></i></strong> (51)99335-0581
 					</div>
 					<div class="col-lg-12 contact-info" id="contact-img">
 

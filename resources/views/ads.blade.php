@@ -60,5 +60,9 @@
 		</div>
 		
 	</footer>
+<script type="text/javascript">
+	let app = document.getElementById('app')
+	app.classList.add('app-flex')
+</script>
 @endsection
 

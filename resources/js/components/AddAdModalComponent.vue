@@ -71,7 +71,7 @@
           this.params.limit = this.limit;
           console.log(this.limit);
           console.log(this.params.limit);
-          axios.post('ads', this.params).then((response) => {
+          axios.post('skive', this.params).then((response) => {
             // console.log();
             this.$emit('create', response.data);
             if(response) {
@@ -92,37 +92,40 @@
           })
         },
         setDateMinMax(){
-          let today = new Date();
+          let today = moment();
+          today = today.format();
 
-          this.startMin = today.toISOString().split("T")[0];
+          this.startMin = today.split("T")[0];
 
-            
-          let tomorrow = today
-          tomorrow.setDate(today.getDate() + 1)
+         
+          let tomorrow = moment(today).add(1, 'days');
+          tomorrow = tomorrow.format();
 
-          this.endMin = tomorrow.toISOString().split("T")[0];
+          this.endMin = tomorrow.split("T")[0];
 
-          let fiveAfter = today
-          fiveAfter.setDate(today.getDate() + 4)
+
+          let fiveAfter = moment(today).add(5, 'days')
+          fiveAfter = fiveAfter.format()
 
           
-          this.endMax = fiveAfter.toISOString().split("T")[0];
-          console.log(this.endMin)
-          console.log(this.endMax)
+          this.endMax = fiveAfter.split("T")[0];
+          // console.log(this.endMin)
+          // console.log(this.endMax)
         },
         updateDateMinMax() {
-          console.log('Caiu aqui');
-          let start = new Date(Date.parse(this.params.start_date))
+       
+          let start = moment(this.params.start_date);
+          start = start.format()
 
-          let tomorrow = start
-          tomorrow.setDate(start.getDate() + 1)
+          let tomorrow = moment(start).add(1, 'days')
+          tomorrow = tomorrow.format()
 
-          this.endMin = tomorrow.toISOString().split("T")[0];
+          this.endMin = tomorrow.split("T")[0];
 
-          let fiveAfter = start
-          fiveAfter.setDate(start.getDate() + 4)
+          let fiveAfter = moment(start).add(5, 'days')
+          fiveAfter = fiveAfter.format()
 
-          this.endMax = fiveAfter.toISOString().split("T")[0];
+          this.endMax = fiveAfter.split("T")[0];
 
         },
         clearError(name) {

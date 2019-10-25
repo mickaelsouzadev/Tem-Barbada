@@ -11,7 +11,12 @@
 		 </li> 
 		 <li class="nav-item dropdown">
 		 	<a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		 	    <img :src="src+info.logo" class="img-profile"> Meu Perfil  <i class="fas fa-caret-down"></i>
+		 	<!-- 	<div class="profile"> -->
+		 			<img :src="src+info.logo" class="img-profile" /> 
+		 	<!-- 	</div>  -->
+
+		 		Meu Perfil  <i class="fas fa-caret-down"></i>
+		 	   
 		 	</a>
 		 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 		 	  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#perfil-modal"><i class="fas fa-user"></i>  Ver Pefil</a>

@@ -132,6 +132,15 @@
             edit(e) {
                 e.preventDefault();
 
+                if(this.profileParams.address_extra == null){
+                    this.profileParams.address_extra = ''
+                }
+
+                if(this.profileParams.phone_2 == null){
+                    this.profileParams.phone_2 = ''
+                }
+
+
                 this.setFormData(this.profileParams)
                     .then(() => {
                        

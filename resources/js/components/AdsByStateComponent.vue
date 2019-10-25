@@ -44,7 +44,7 @@
         },
         methods: {
           getAdsByState() {
-            axios.get('/ads/state/'+this.state_id).then((response) => {
+            axios.get('/skive/state/'+this.state_id).then((response) => {
                 this.ads = response.data;
                 this.showAll = true
                 console.log(this.ads.length)

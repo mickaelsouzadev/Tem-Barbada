@@ -46,7 +46,7 @@
         methods: {
         	getAdsbyCity() {
         		console.log(this.city_id)
-        		axios.get('/ads/city/'+this.city_id).then((response) => {
+        		axios.get('/skive/city/'+this.city_id).then((response) => {
            			this.ads = response.data;
                 this.showAll = true;
                 console.log(this.ads)

@@ -3,8 +3,9 @@
 @section('title', 'Painel do Cliente')
 
 @section('header')
+	@section('content')
 	<profile></profile>
-	
+	@endsection
 
 @endsection
 
@@ -18,6 +19,9 @@
 			Por Darby Biehl
 		</div>
 	</div>
-	
+<script type="text/javascript">
+	let app = document.getElementById('app')
+	app.classList.add('app-flex')
+</script>	
 </footer>
 @endsection

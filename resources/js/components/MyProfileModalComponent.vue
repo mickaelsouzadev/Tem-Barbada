@@ -38,6 +38,10 @@
                 
                 <p><strong>Número: </strong>{{ profile.number }}</p>
             </div>
+             <div v-if="profile.address_extra" class="col-lg-12">
+                        
+                <p><strong>Complemento: </strong>{{ profile.address_extra }}</p>
+            </div>
             <div class="col-lg-12">
                 <p><strong>Estado: </strong>{{ profile.state_name }}</p>
             </div>
@@ -47,7 +51,7 @@
             <div class="col-lg-12">
                 <p><strong>Telefone 1: </strong> {{ profile.phone_1 }}</p>
             </div>
-            <div class="col-lg-12">
+           <div  v-if="profile.phone_2" class="col-lg-12">
                 <p><strong>Telefone 2: </strong> {{ profile.phone_2 }}</p>
             </div>
             

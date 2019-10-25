@@ -30,7 +30,7 @@
 @endsection
 @section('footer')
 <login></login>
-<footer class="bg-primary container-fluid footer-fixed">
+<footer class="bg-primary container-fluid footer">
 		<div class="row justify-content-center">
 			<div class="col-lg-12 text-center">
 				Tem Barbada &copy; 2019
@@ -41,4 +41,8 @@
 		</div>
 		
 	</footer>
+<script type="text/javascript">
+	let app = document.getElementById('app')
+	app.classList.add('app-flex')
+</script>
 @endsection

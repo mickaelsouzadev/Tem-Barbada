@@ -37,9 +37,9 @@ class ClientController extends Controller
 	    return $service->getClientById($this->auth->id());
 	}
 
-	public function showAll()
+	public function showAll(ClientService $service)
 	{
-		//
+		return $service->getClientAll();
 	}
 
 	public function store(RegisterRequest $request, ClientService $service)

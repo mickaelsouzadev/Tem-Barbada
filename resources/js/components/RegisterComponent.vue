@@ -76,14 +76,14 @@
 	            <div class="col-md-4">
 	                <div class="form-group">
 	                  	<label class="mb-1">Complemento: </label>
-		    	      	<input type="text" name="complemento" class="form-control" @change = "clearError('address_extra')" v-bind:class="{ 'is-invalid':  (errors.extra_address), 'is-valid': (errors.address_extra === false) }" placeholder="Complemento" v-model="params.adress_extra">
+		    	      	<input type="text" name="complemento" class="form-control" @change = "clearError('address_extra')" v-bind:class="{ 'is-invalid':  (errors.extra_address), 'is-valid': (errors.address_extra === false) }" placeholder="Complemento" v-model="params.address_extra">
 		    	      	<div class="invalid-feedback text-center" v-if="errors.extra_address">{{ errors.extra_address[0]}}</div>
 	                </div>
 	            </div>
 	            <div class="col-md-6">
 	                <div class="form-group">
 	                  	<label>Telefone 1: </label>
-	    	      		<input type="text" name="telefone-1" class="form-control" @change = "clearError('phone_1')" v-bind:class="{ 'is-invalid':  (errors.phone_1), 'is-valid': (errors.phone_1 === false) }" placeholder="Telefone 1" v-model="params.phone_1">
+	    	      		<input type="tel" v-mask="phoneMask1" name="telefone-1" class="form-control" @change = "clearError('phone_1'); changeMask1()" v-bind:class="{ 'is-invalid':  (errors.phone_1), 'is-valid': (errors.phone_1 === false) }" placeholder="(00) 9999-0000" v-model="params.phone_1">
 	    	      		<div class="invalid-feedback text-center" v-if="errors.phone_1">{{ errors.phone_1[0]}}</div>
 	                </div>
 	               
@@ -91,7 +91,7 @@
 	            <div class="col-md-6">
 	                <div class="form-group">
 	                  	<label>Telefone 2: </label>
-	    	      		<input type="text" name="telefone-2" class="form-control" @change = "clearError('phone_2')" v-bind:class="{ 'is-invalid':  (errors.phone_2), 'is-valid': (errors.phone_2 === false) }" placeholder="Telefone 2" v-model="params.phone_2">
+	    	      		<input type="tel" v-mask="phoneMask2" name="telefone-2" class="form-control" @change = "clearError('phone_2'); changeMask2()" v-bind:class="{ 'is-invalid':  (errors.phone_2), 'is-valid': (errors.phone_2 === false) }" placeholder="(00) 9999-0000" v-model="params.phone_2" >
 	    	      		<div class="invalid-feedback text-center" v-if="errors.phone_2">{{ errors.phone_2[0]}}</div>
 	            </div>
 	                </div>
@@ -105,15 +105,59 @@
 	            <div class="col-md-12 alert alert-danger" v-show="error">
 	                {{ errorMessage }}
 	            </div>
-	             <div class="col-md-12 alert alert-success" v-show="success">
-	                {{ successMessage }}
-	            </div>
 	             <div class="col-md-12  text-center">
 	              	<div class="form-group">
 	                  	<button type="submit" class="btn btn-primary col-md-6">Cadastre-se</button>
 	                </div>
 	            </div>
 	        </form>
+
+
+	       <div class="modal fade" ref="successModal" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	          <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	              <div class="modal-header bg-success">
+	                <h5 class="modal-title" style="color: #fff">Sucesso!</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                  <span aria-hidden="true">&times;</span>
+	                </button>
+	              </div>
+	            
+	                <div  class="modal-body row">
+	                    <div class="col-lg-12">
+	                         <h5>{{ successMessage }}</h5>
+	                    </div>
+	                   
+	                </div>
+	                <div class="modal-footer">
+	                    <button class="btn btn-success" data-dismiss="modal" @click="goHome()">Ok</button>
+	                </div>
+	            </div>
+	          </div>
+	        </div>
+	         <div class="modal fade" ref="errorModal" id="danger-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	          <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	              <div class="modal-header bg-danger">
+	                <h5 class="modal-title" style="color: #fff">Erro!</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                  <span aria-hidden="true">&times;</span>
+	                </button>
+	              </div>
+	            
+	                <div  class="modal-body row">
+	                    <div class="col-lg-12">
+	                         <h5>{{ errorMessage }}</h5>
+	                    </div>
+	                   
+	                </div>
+	                <div class="modal-footer">
+	                    <button class="btn btn-danger" data-dismiss="modal">Ok</button>
+	                </div>
+	            </div>
+	          </div>
+	        </div>
+
 	    </div>
 </template>
 <script>
@@ -145,6 +189,8 @@
     			success: false,
     			successMessage: '',
     			image: '',
+    			phoneMask1: '(##) ?# ####-####',
+    			phoneMask2: '(##) ?# ####-####',
 			}
 		},
 		mounted() {
@@ -156,6 +202,8 @@
            	})
 
            	this.formData = new FormData();
+
+          	$(this.$refs.successModal).on("hidden.bs.modal", this.goHome);
 		},
 		methods: {
 			getCities() {
@@ -183,6 +231,7 @@
 							this.error = false;
 						 	this.success = true;
 						 	this.successMessage = response.data.message;
+						 	$(this.$refs.successModal).modal('show');
 						}).catch((error) => {
 						 	let status = error.response.status
 
@@ -191,12 +240,17 @@
 						 	        this.error = false;
 						 	        this.errors = JSON.parse(JSON.stringify(error.response.data.errors));
 						 	        this.formError = true;
-						 	        console.log(this.errors)
+						 	        this.errorMessage = "Não foi possível realizar o seu cadastro! Verifique suas informações e certifique que tenha as inserido corretamente!";
+						 	        if(this.errors.email && Object.keys(this.errors).length <= 2) {
+						 	        	this.errorMessage = this.errors.email[0];
+						 	        }
+						 	        $(this.$refs.errorModal).modal('show');
 						 	        break;
 							    default:
 							        this.error = true;
 							        this.errorMessage = "Erro interno no servidor, tente novamente mais tarde!";
 							        this.formError = false;
+							        $(this.$refs.errorModal).modal('show');
 							}
 						})
 
@@ -209,6 +263,26 @@
 			setImage(e) {
 				console.log(e.target.files[0]);
                 this.image = e.target.files[0];
+			},
+			goHome() {
+				window.location.href="/";
+			},
+			changeMask1() {
+			
+				if(this.params.phone_1.length < 16) {
+					this.phoneMask1 = '(##) ####-####'
+				} else {
+					this.phoneMask1 = '(##) ?# ####-####'
+				}
+				
+			},
+			changeMask2() {
+				console.log(this.params.phone_2.length)
+				if(this.params.phone_2.length < 16) {
+					this.phoneMask2 = '(##) ####-####'
+				} else {
+					this.phoneMask2 = '(##) ?# ####-####'
+				}
 			},
 			async setFormData(data) {
 				for(let key in data) {

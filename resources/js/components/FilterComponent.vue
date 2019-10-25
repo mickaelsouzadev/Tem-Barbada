@@ -47,7 +47,7 @@
         		
         	},
             goToAd() {
-                if(this.city === 0) {
+                if(this.city == 0) {
                     window.location.href="barbadas/estado/"+this.state
                 } else {
                     window.location.href="barbadas/cidade/"+this.city

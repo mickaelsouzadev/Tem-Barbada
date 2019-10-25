@@ -49,7 +49,7 @@
 	    },
 	    methods: {
 	          getMyAds() {
-	            axios.get('/ads').then((response) => {
+	            axios.get('/skive').then((response) => {
 	                this.ads = response.data;
 	               	this.showAds = true
 	              })

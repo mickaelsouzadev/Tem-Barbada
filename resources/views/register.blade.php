@@ -26,13 +26,7 @@
 			<div class="col-lg-12 text-center">
 				<h3 class="title">Cadastre-se</h3>
 			</div>
-			{{-- <div class="card col-lg-9 price-card">
-			  <div class="card-body">
-			    <form class="form-inline">
-			    	      	
-			    </form>
-			  </div>
-			</div> --}}
+			
 			<register></register>
 			
 			
@@ -85,5 +79,9 @@
 	    </div>
 	  </div>
 	</div>
+<script type="text/javascript">
+	let app = document.getElementById('app')
+	app.classList.add('app-flex')
+</script>
 @endsection
 

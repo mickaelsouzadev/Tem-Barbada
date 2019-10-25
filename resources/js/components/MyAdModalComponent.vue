@@ -53,9 +53,11 @@
                 <div class="invalid-feedback text-center" v-if="errors.end_date">{{ errors.end_date[0]}}</div>
                    
             </div>
-            <div class="col-lg-8 alert alert-danger" v-show="error">
-                {{ errorMessage }}
-            </div>
+            <div class="form-group">
+              <div class="col-lg-12 alert alert-danger" v-show="error">
+                  {{ errorMessage }}
+              </div>
+             </div>
           </div>
         <div v-if="!edit_mode" class="modal-footer">
             <button class="btn btn-info" @click="edit()">Editar <i class="fas fa-pencil-alt"></i></button>
@@ -63,7 +65,7 @@
         </div>
          <div v-else class="modal-footer">
             <button class="btn btn-success" @click="saveEdit()">Salvar</button>
-            <button class="btn btn-secondary" @click="saveEdit()">Cancelar</button>
+            <button class="btn btn-secondary" @click="cancelEdit()">Cancelar</button>
         </div>
     </div>
   </div>
@@ -109,15 +111,17 @@
     		}
     	},
         mounted() {
-            this.setDateMinMax()
+          
         },
         methods: {
         	edit() {
                 this.edit_mode = true;
+                this.setDateMinMax()
             },
+
             saveEdit() {
               
-                axios.put('ads/'+this.ad.id, this.ad).then((response) => {
+                axios.put('skive/'+this.ad.id, this.ad).then((response) => {
                     this.edit_mode = false;
                 }).catch((error) => {
                     let status = error.response.status
@@ -133,41 +137,36 @@
                     }
                 })
             },
+            cancelEdit() {
+               this.edit_mode = false;
+            },
             setDateMinMax(){
-              let today = new Date();
+              let today = moment();
+              today = today.format();
 
-              this.startMin = today.toISOString().split("T")[0];
+              this.startMin = today.split("T")[0];
 
-                
-              let tomorrow = today
-              tomorrow.setDate(today.getDate() + 1)
+              this.updateDateMinMax()
 
-              this.endMin = tomorrow.toISOString().split("T")[0];
-
-              let fiveAfter = today
-              fiveAfter.setDate(today.getDate() + 4)
-
-              
-              this.endMax = fiveAfter.toISOString().split("T")[0];
-              console.log(this.endMin)
-              console.log(this.endMax)
             },
             updateDateMinMax() {
-              let start = new Date(Date.parse(this.ad.start_date))
+          
+              let start = moment(this.ad.start_date);
+              start = start.format()
 
-              let tomorrow = start
-              tomorrow.setDate(start.getDate() + 1)
+              let tomorrow = moment(start).add(1, 'days')
+              tomorrow = tomorrow.format()
 
-              this.endMin = tomorrow.toISOString().split("T")[0];
+              this.endMin = tomorrow.split("T")[0];
 
-              let fiveAfter = start
-              fiveAfter.setDate(start.getDate() + 4)
+              let fiveAfter = moment(start).add(5, 'days')
+              fiveAfter = fiveAfter.format()
 
-              this.endMax = fiveAfter.toISOString().split("T")[0];
+              this.endMax = fiveAfter.split("T")[0];
 
             },
             deleteAd() {
-                axios.delete('ads/'+this.ad.id).then((response) => {
+                axios.delete('skive/'+this.ad.id).then((response) => {
                     this.$emit('delete')
                 })
             },

@@ -22,15 +22,19 @@ Route::post('/login', 'ClientController@login');
 Route::middleware(['auth:client'])->group(function () {
 	Route::get('/sair', 'ClientController@logout');
 	Route::get('/painel-cliente', 'ClientController@index');
-	Route::apiResource('clients', 'ClientController')->except([
-    	'index', 'create', 'store']);
     Route::get('clients', 'ClientController@show');
-    Route::apiResource('ads', 'AdController')->except([
+    Route::apiResource('skive', 'AdController')->except([
     	'index', 'show'
 	]);;
 
 });
 
+Route::middleware(['auth'])->group(function() {
+	Route::apiResource('clients', 'ClientController')->except([
+	    'index', 'create', 'store']);
+});
+
+Route::post('contact', 'HomeController@contact');
 
 Route::post('register', 'ClientController@store');
 
@@ -53,11 +57,11 @@ Route::get('cities/disponible', 'CityController@getDisponible');
 
 Route::apiResource('categories', 'CategoryController');
 
-Route::get('ads/', 'AdController@getByClient');
+Route::get('skive/', 'AdController@getByClient');
 Route::get('barbadas/estado/{state}', 'AdController@showByState');
 Route::get('barbadas/cidade/{city}', 'AdController@showByCity');
-Route::get('ads/state/{state}', 'AdController@getByState');
-Route::get('ads/city/{city}', 'AdController@getByCity');
+Route::get('skive/state/{state}', 'AdController@getByState');
+Route::get('skive/city/{city}', 'AdController@getByCity');
 // Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('email-success/{token}', function() {
@@ -69,6 +73,8 @@ Route::post('admin/login', 'Admin\AdminController@login');
 
 Route::middleware(['auth:admin'])->group(function () {
 	Route::get('admin', 'Admin\AdminController@index');
+	Route::get('admin/clients', 'ClientController@showAll');
+	Route::get('admin/clientes', 'Admin\AdminClientController@index');
 });
 
 
