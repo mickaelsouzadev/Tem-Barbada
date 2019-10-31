@@ -1,11 +1,24 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,900i|Montserrat|Roboto+Condensed&display=swap');
 
+html{
+  height: 100%;
+}
+
 body {
 	background-color: #ececec;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
 }
 
 p {
 	font-family: 'Lato', sans-serif;
+}
+
+.app-flex {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
 }
 
 .card {
@@ -129,6 +142,7 @@ p {
 	margin: auto;
 	padding: 2em;
 	margin-top: 4%;
+	flex: 1 0 auto;
 }
 
 .btn-primary {
@@ -237,6 +251,7 @@ p {
 	position: relative;
   	bottom: 0;
   	margin-top: 3rem;
+  	flex-shrink: 0;
 }
 
 .footer-fixed {
@@ -257,8 +272,9 @@ p {
 }
 
 .ads {
-	margin-top: 1rem;
 	cursor: pointer;
+	margin: 0.5rem;
+	margin-top: 1rem;
 }
 
 .add-card {
@@ -281,8 +297,8 @@ p {
 }
 
 .page-out {
-	margin-top: 80px;
-	margin-bottom: 100px;
+	margin-top: 4.5rem;
+	margin-bottom: 4rem;/
 }
 
 .local-title {
@@ -304,7 +320,7 @@ p {
   max-width: 100%;
   object-fit: cover;
   object-position: center;
-  width: 100%;
+  width: 180px;
   height: 180px;
 }
 
@@ -314,8 +330,7 @@ p {
 }
 
 .wrapper {
-      min-height: 100%;
-      margin-bottom: -50px;
+      flex: 1 0 auto;
     }
 
 .email-success {
@@ -343,8 +358,38 @@ p {
 }
 
 .img-profile {
-	width: 46px;
+	width: auto;
 	height: 46px;
 	clip-path: circle();
-	margin-right: 0.7rem;
+}
+
+.thumbnail {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  overflow: hidden;
+}
+.thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+.thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+
+.card-img-section {
+	height: 180px;
+	max-height: 180px;
+}
+
+.img-card {
+	max-height: 180px;
+	object-fit: cover;
 }

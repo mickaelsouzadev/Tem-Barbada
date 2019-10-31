@@ -34,14 +34,14 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-      <a class="nav-link" href="index.html">
+      <a class="nav-link" href="/admin">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Painel de Controle</span></a>
     </li>
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-      <a class="nav-link" href="clientes.html">
+      <a class="nav-link" href="/admin/clientes">
         <i class="fas fa-fw fa-user"></i>
         <span>Clientes</span></a>
     </li>

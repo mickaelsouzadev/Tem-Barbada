@@ -137,7 +137,7 @@
             </div>
              <div class="modal-footer">
              <button class="btn btn-success" @click="saveEdit">Salvar</button>
-             <button class="btn btn-secondary" @click="cancelEdit()">Cancelar</button>
+             <button class="btn btn-secondary" @click="cancelEdit">Cancelar</button>
            </div>
          </form>
            
@@ -159,7 +159,7 @@
 				src: '/img/',
 				clients: [],
 				selectedClient: {},
-				params: {},
+				cachedClient: {},
 				oldClient: {},
 				formData: null,
 				formError: false,
@@ -176,6 +176,7 @@
 			    this.categories = response.data
 			})
 			this.getClients();
+		
 			this.formData = new FormData();
 		},
 		methods: {
@@ -187,8 +188,11 @@
 	        },
 	        setClient(client) {
 	        	this.selectedClient = client;
+	        	
+	        	this.cachedClient = Object.assign({}, this.selectedClient);
+
 	        	axios.get('/cities', { 
-                    params: 
+                    selectedClient: 
                     {
                         state_id: client.state} 
                     }).then((response) => {
@@ -197,88 +201,84 @@
 	        },
 	        edit() {
 	        	this.edit_mode = true;
-	        	this.oldClient = this.selectedClient;
 	        },
 	        cancelEdit() {
-	        	this.selectedClient = this.oldClient;
-	        	console.log(this.oldClient);
+	        	this.selectedClient = this.cachedClient;
 	        	this.edit_mode = false;
-	        	
 	        },
 	        saveEdit(e) {
-	                        e.preventDefault();
+	        	
+	            e.preventDefault();
 
-	                        if(this.selectedClient.address_extra == null){
-	                            this.selectedClient.address_extra = ''
-	                        }
+	            if(this.selectedClient.address_extra == null){
+	                this.selectedClient.address_extra = ''
+	            }
 
-	                        if(this.selectedClient.phone_2 == null){
-	                            this.selectedClient.phone_2 = ''
-	                        }
+	            if(this.selectedClient.phone_2 == null){
+	                this.selectedClient.phone_2 = ''
+	            }
 
 
-	                        this.setFormData(this.selectedClient)
-	                            .then(() => {
+	            this.setFormData(this.selectedClient)
+	                .then(() => {
 	                               
-	                              
-	                                const config = { headers: { 'content-type': 'multipart/form-data' } }
+	                    const config = { headers: { 'content-type': 'multipart/form-data' } }
 
+	                    axios.post('../clients/'+this.selectedClient.id, this.formData).then((response) => {
 
+	                        if(response.data.logo) {
+	                             this.selectedClient.logo = response.data.logo;
+	                        }
 
-	                                axios.post('../clients/'+this.selectedClient.id, this.formData).then((response) => {
+	                         this.selectedClient = Object.assign({}, this.cachedClient);
 
-	                                    if(response.data.logo) {
-	                                        this.selectedClient.logo = response.data.logo;
-	                                    }
+	                        // this.$emit('update', this.selectedClient);
 
+	                        // if(response) {
+	                        //     $('#edit-modal').modal('hide')
+	                        // }
 
-	                                    // this.$emit('update', this.selectedClient);
+	                    }).catch((error) => {
+	                        let status = error.response.status
 
-	                                    // if(response) {
-	                                    //     $('#edit-modal').modal('hide')
-	                                    // }
-
-	                                }).catch((error) => {
-	                                    let status = error.response.status
-
-	                                    switch(status) {
-	                                        case 422:
-	                                            this.error = false;
-	                                            this.errors = JSON.parse(JSON.stringify(error.response.data.errors));
+	                        switch(status) {
+	                            case 422:
+	                                this.error = false;
+	                                this.errors = JSON.parse(JSON.stringify(error.response.data.errors));
 	                                            this.formError = true;
-	                                            console.log(this.errors)
-	                                            break;
-	                                        default:
-	                                            this.error = true;
-	                                            this.errorMessage = "Erro interno no servidor, tente novamente mais tarde!";
-	                                            this.formError = false;
-	                                    }
-	                                })
+	                                console.log(this.errors)
+	                                break;
+	                            default:
+	                                this.error = true;
+	                                this.errorMessage = "Erro interno no servidor, tente novamente mais tarde!";
+	                                this.formError = false;
+	                        }
+	                    })
 
-	                            })
+	                })
 	                    
-	                    },
-	                    clearError(name) {
-	                        this.errors[name] = false
-	                    },
-	                    setImage(e) {
-	                        console.log(e.target.files[0]);
-	                        this.image = e.target.files[0];
-	                    },
-	                    async setFormData(data) {
-	                        for(let key in data) {
-	                            if(data[key] !== 'logo') {
+	        },
+	        clearError(name) {
+	            this.errors[name] = false
+	        },
+	        setImage(e) {
+	            console.log(e.target.files[0]);
+	            this.image = e.target.files[0];
+	        },
+	        async setFormData(data) {
+	            for(let key in data) {
+	                if(data[key] !== 'logo') {
 	                                this.formData.append(key, data[key])
-	                            }
+	                }
 	                        
-	                        }
+	            }
 
-	                        if(this.image) {
-	                            this.formData.append('logo', this.image)
-	                        }
+	            if(this.image) {
+	                this.formData.append('logo', this.image)
+	            }
 
-	                        this.formData.append('_method', 'PUT')
-	                    }            
-	        }
+	            this.formData.append('_method', 'PUT')
+	        }            
+	    }
 	};
 </script>
