@@ -29,7 +29,7 @@ Route::middleware(['auth:client'])->group(function () {
 
 });
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth:client,admin'])->group(function() {
 	Route::apiResource('clients', 'ClientController')->except([
 	    'index', 'create', 'store']);
 });

@@ -16,6 +16,11 @@ class ClientService
 		$this->repository = $repository;
 	}
 
+	public function getClientAll() 
+	{
+		return $this->repository->all();
+	}
+
 	public function getClientById($clientId) 
 	{
 		return $this->repository->getById($clientId);

@@ -67,7 +67,7 @@
              </div>
               <div  class="modal-footer">
                <button class="btn btn-info" @click="edit()">Editar <i class="fas fa-pencil-alt"></i></button>
-               <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#delete-client-modal">Excluir <i class="fas fa-trash"></i></button>
+               <button class="btn btn-danger"  data-dismiss="modal" data-toggle="modal" data-target="#delete-client-modal">Excluir <i class="fas fa-trash"></i></button>
              </div>
            </div>
            <form v-else>
@@ -142,6 +142,29 @@
          </form>
            
        
+         </div>
+       </div>
+     </div>
+     <div class="modal fade" id="delete-client-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal-dialog" role="document">
+         <div class="modal-content">
+           <div class="modal-header bg-danger">
+             <h5 class="modal-title" style="color: #fff">Excluir</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+             </button>
+           </div>
+         
+             <div  class="modal-body row">
+                 <div class="col-lg-12">
+                      <h5>Deseja mesmo excluir esse Cliente?</h5>
+                 </div>
+                
+             </div>
+             <div class="modal-footer">
+                 <button class="btn btn-danger" data-dismiss="modal" @click="deleteClient()">Excluir</button>
+                 <button class="btn btn-secondary cancel" data-dismiss="modal">Cancelar</button>
+             </div>
          </div>
        </div>
      </div>
@@ -230,13 +253,13 @@
 	                             this.selectedClient.logo = response.data.logo;
 	                        }
 
-	                         this.selectedClient = Object.assign({}, this.cachedClient);
 
-	                        // this.$emit('update', this.selectedClient);
+	                        this.$emit('update', this.selectedClient);
 
-	                        // if(response) {
-	                        //     $('#edit-modal').modal('hide')
-	                        // }
+	                       	this.edit_mode = false;
+
+	                        // this.selectedClient = Object.assign({}, this.cachedClient);
+
 
 	                    }).catch((error) => {
 	                        let status = error.response.status
@@ -264,6 +287,17 @@
 	        setImage(e) {
 	            console.log(e.target.files[0]);
 	            this.image = e.target.files[0];
+	        },
+	        deleteClient() {
+	        	// axios.delete('../clients/'+this.selectedClient.id).then((response) => {
+                   	for(let index in this.clients) {
+		          		if(this.clients[index].id === this.selectedClient.id) {
+		          			console.log('index:', index);
+		          			console.log('id:', this.selectedClient.id);
+		          			this.clients.splice(index, 1);
+		          		}
+	          		}
+                // })
 	        },
 	        async setFormData(data) {
 	            for(let key in data) {

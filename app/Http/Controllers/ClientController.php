@@ -53,9 +53,9 @@ class ClientController extends Controller
      	return $service->updateClient($request, $id);
     }
 
-    public function destroy(Client $client)
+    public function destroy(ClientService $service, $id)
     {
-        
+        return $service->deleteClient($id);
     }
 
     public function login(LoginRequest $request) 
